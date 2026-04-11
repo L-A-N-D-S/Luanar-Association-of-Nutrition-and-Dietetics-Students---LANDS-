@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LANDS Announcements</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: white;
+}
+
+/* NAVBAR */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.logo img { height: 50px; }
+
+.nav-links a {
+  color: green;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* CARD */
+.section-card {
+  width: 95%;
+  max-width: 900px;
+  margin: 25px auto;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+.card-header {
+  background: green;
+  color: white;
+  text-align: center;
+  padding: 12px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.card-body {
+  padding: 15px;
+}
+
+/* GRID */
+.announcements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+/* CARD ITEM */
+.announcement-card {
+  background: #fafafa;
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+  border: 1px solid #eee;
+}
+
+.announcement-title {
+  font-weight: bold;
+  color: green;
+  margin-bottom: 10px;
+}
+
+/* BUTTON */
+.view-btn {
+  background: green;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* MOBILE */
+@media(max-width:600px){
+  .announcements-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav class="navbar">
+  <div class="logo"><img src="logo.png"></div>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+  </div>
+</nav>
+
+<!-- ANNOUNCEMENTS -->
+<div class="section-card">
+  <div class="card-header">All Announcements</div>
+
+  <div class="card-body">
+    <div class="announcements-grid" id="announcementsGrid"></div>
+  </div>
+</div>
+
+<script>
+
+/* ===== CONFIG ===== */
+const repoOwner = "l-a-n-d-s";
+const repoName = "Luanar-Association-of-Nutrition-and-Dietetics-Students---LANDS-";
+
+/* ===== LOAD ANNOUNCEMENTS ===== */
+async function loadAnnouncements(){
+  try{
+    const res = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/announcement`);
+    const data = await res.json();
+
+    if(!Array.isArray(data)) return;
+
+    const pdfs = data
+      .filter(f => f.name.toLowerCase().endsWith(".pdf"))
+      .sort((a,b)=> a.name.localeCompare(b.name)); // stable order
+
+    const container = document.getElementById("announcementsGrid");
+    container.innerHTML = "";
+
+    pdfs.reverse().forEach(file => {
+
+      const title = file.name
+        .replace(".pdf","")
+        .replace(/[_-]/g, " ");
+
+      container.innerHTML += `
+        <div class="announcement-card">
+          <div class="announcement-title">${title}</div>
+          <button class="view-btn" onclick="window.open('${file.download_url}', '_blank')">
+            View PDF
+          </button>
+        </div>
+      `;
+    });
+
+  }catch(err){
+    console.error("Error loading announcements:", err);
+  }
+}
+
+/* INIT */
+loadAnnouncements();
+
+</script>
+
+</body>
+</html>
