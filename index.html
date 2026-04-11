@@ -24,17 +24,21 @@ body {
   align-items: center;
   padding: 10px 20px;
   border-bottom: 1px solid #eee;
+  flex-wrap: wrap;
 }
 
-.logo img { height: 50px; }
+.logo img {
+  height: 50px;
+}
 
 .menu-icon {
-  font-size: 28px;
+  font-size: 30px;
   cursor: pointer;
   display: none;
   color: green;
 }
 
+/* NAV LINKS */
 .nav-links {
   list-style: none;
   display: flex;
@@ -61,6 +65,7 @@ body {
 
 /* ===== CARD ===== */
 .section-card {
+  width: 95%;
   max-width: 900px;
   margin: 25px auto;
   background: white;
@@ -83,17 +88,11 @@ body {
   text-align: center;
 }
 
-/* ===== EVENTS ===== */
-.events img {
+/* EVENTS IMAGE */
+.section-card img {
   width: 100%;
   max-width: 600px;
   border-radius: 10px;
-}
-
-.event-title {
-  margin-top: 10px;
-  font-weight: bold;
-  color: green;
 }
 
 /* ===== ANNOUNCEMENTS ===== */
@@ -125,8 +124,8 @@ body {
   gap: 15px;
 }
 
-/* INPUT */
-.bmi-inputs {
+.bmi-inputs,
+.bmi-results {
   flex: 1;
   min-width: 250px;
 }
@@ -148,13 +147,6 @@ body {
   border-radius: 8px;
 }
 
-/* RESULTS */
-.bmi-results {
-  flex: 1;
-  min-width: 250px;
-  text-align: left;
-}
-
 .bmi-results ul {
   list-style: none;
   padding: 0;
@@ -167,27 +159,25 @@ body {
   border-radius: 6px;
 }
 
-/* ONLY NORMAL GREEN */
+/* ACTIVE STATES */
 .active-normal {
   background: green !important;
   color: white !important;
   font-weight: bold;
 }
 
-/* OTHERS RED */
 .active-bad {
   background: red !important;
   color: white !important;
   font-weight: bold;
 }
 
-/* ===== FOOTER (ORANGE ONLY) ===== */
+/* ===== FOOTER ===== */
 .footer {
   background: orange;
   color: white;
   text-align: center;
   padding: 20px;
-  margin-top: 30px;
 }
 
 .footer-links a {
@@ -205,6 +195,47 @@ body {
   display: inline-block;
   border-radius: 8px;
   margin-top: 10px;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
+
+  .menu-icon {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    background: white;
+    margin-top: 10px;
+    padding: 10px 0;
+    border-top: 1px solid #eee;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .nav-links li {
+    text-align: center;
+    padding: 10px 0;
+  }
+
+  .bmi-wrapper {
+    flex-direction: column;
+  }
+
+  .card-header {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo img {
+    height: 40px;
+  }
 }
 </style>
 </head>
@@ -341,7 +372,7 @@ fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/announceme
   });
 });
 
-/* ===== BMI + ADVICE ===== */
+/* ===== BMI ===== */
 function calcBMI(){
   const w = parseFloat(document.getElementById("weight").value);
   const h = parseFloat(document.getElementById("height").value);
@@ -350,40 +381,36 @@ function calcBMI(){
 
   const bmi = (w/(h*h)).toFixed(1);
 
-  reset();
+  document.querySelectorAll(".bmi-results li").forEach(li=>{
+    li.classList.remove("active-normal","active-bad");
+  });
 
-  let advice = "";
   let result = "";
+  let advice = "";
 
   if(bmi < 18.5){
     document.getElementById("under").classList.add("active-bad");
     result = "Underweight";
-    advice = "Increase calorie intake with balanced nutritious foods.";
+    advice = "Increase calorie intake with balanced foods.";
   }
   else if(bmi < 25){
     document.getElementById("normal").classList.add("active-normal");
     result = "Normal";
-    advice = "Great job! Maintain your balanced diet and active lifestyle.";
+    advice = "Great job! Keep maintaining your lifestyle.";
   }
   else if(bmi < 30){
     document.getElementById("over").classList.add("active-bad");
     result = "Overweight";
-    advice = "Reduce sugar/fat intake and increase physical activity.";
+    advice = "Increase physical activity and reduce sugar.";
   }
   else{
     document.getElementById("obese").classList.add("active-bad");
     result = "Obese";
-    advice = "Seek medical guidance and adopt a structured diet plan.";
+    advice = "Seek medical advice and improve diet.";
   }
 
   document.getElementById("bmiOutput").innerText = `BMI: ${bmi} (${result})`;
   document.getElementById("advice").innerText = advice;
-}
-
-function reset(){
-  document.querySelectorAll(".bmi-results li").forEach(li=>{
-    li.classList.remove("active-normal","active-bad");
-  });
 }
 </script>
 
