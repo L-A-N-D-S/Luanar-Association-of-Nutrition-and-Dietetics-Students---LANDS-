@@ -61,7 +61,7 @@ body {
   border-radius: 10px;
 }
 
-/* ===== CARD ===== */
+/* ===== CARDS ===== */
 .section-card {
   max-width: 900px;
   margin: 25px auto;
@@ -121,7 +121,73 @@ body {
   border-radius: 6px;
 }
 
-/* ===== FOOTER (KEEP ORANGE ONLY) ===== */
+/* ===== BMI CARD ===== */
+.bmi-wrapper {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+/* LEFT INPUT */
+.bmi-inputs {
+  flex: 1;
+  min-width: 250px;
+}
+
+.bmi-inputs input {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: white;
+}
+
+.bmi-inputs button {
+  width: 100%;
+  padding: 12px;
+  background: green;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* RIGHT RESULT */
+.bmi-results {
+  flex: 1;
+  min-width: 250px;
+  text-align: left;
+}
+
+.bmi-results ul {
+  list-style: none;
+  padding: 0;
+}
+
+.bmi-results li {
+  padding: 8px;
+  margin: 5px 0;
+  background: #f5f5f5;
+  border-radius: 6px;
+  color: #222;
+}
+
+/* ONLY NORMAL GREEN */
+.active-normal {
+  background: green !important;
+  color: white !important;
+  font-weight: bold;
+}
+
+/* OTHERS RED */
+.active-bad {
+  background: red !important;
+  color: white !important;
+  font-weight: bold;
+}
+
+/* ===== FOOTER (KEEP ORANGE) ===== */
 .footer {
   background: orange;
   color: white;
@@ -159,8 +225,10 @@ body {
     text-align: center;
   }
 
-  .nav-links.active {
-    display: flex;
+  .nav-links.active { display: flex; }
+
+  .bmi-wrapper {
+    flex-direction: column;
   }
 }
 </style>
@@ -195,7 +263,7 @@ body {
 <div class="section-card">
   <div class="card-header">Upcoming Events</div>
   <div class="card-body events">
-    <img id="eventImage" alt="event">
+    <img id="eventImage">
     <div class="event-title" id="eventTitle"></div>
   </div>
 </div>
@@ -204,6 +272,37 @@ body {
 <div class="section-card">
   <div class="card-header">Announcements</div>
   <div class="card-body" id="announcementList"></div>
+</div>
+
+<!-- BMI CALCULATOR (RESTORED) -->
+<div class="section-card">
+  <div class="card-header">BMI Calculator</div>
+
+  <div class="card-body">
+    <div class="bmi-wrapper">
+
+      <!-- LEFT -->
+      <div class="bmi-inputs">
+        <input type="number" id="weight" placeholder="Weight (kg)">
+        <input type="number" id="height" placeholder="Height (m)">
+        <button onclick="calcBMI()">GO</button>
+
+        <div id="bmiOutput" style="margin-top:10px;font-weight:bold;"></div>
+        <div id="advice"></div>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="bmi-results">
+        <ul>
+          <li id="under">Underweight</li>
+          <li id="normal">Normal</li>
+          <li id="over">Overweight</li>
+          <li id="obese">Obese</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
 </div>
 
 <!-- FOOTER -->
@@ -220,7 +319,6 @@ body {
     WhatsApp: +265 890 277 409
   </div>
 
-  <br>&copy; 2025 LANDS
 </footer>
 
 <script>
@@ -228,7 +326,7 @@ function toggleMenu(){
   document.getElementById("navLinks").classList.toggle("active");
 }
 
-/* ================= EVENTS ================= */
+/* ===== EVENTS ===== */
 const repoOwner = "l-a-n-d-s";
 const repoName = "Luanar-Association-of-Nutrition-and-Dietetics-Students---LANDS-";
 
@@ -238,24 +336,18 @@ fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/event`)
 
   if(!Array.isArray(data)) return;
 
-  const images = data.filter(f =>
-    /\.(jpg|jpeg|png)$/i.test(f.name)
-  );
-
+  const images = data.filter(f => /\.(jpg|jpeg|png)$/i.test(f.name));
   if(images.length === 0) return;
 
-  const latest = images[images.length - 1]; // safest latest
+  const latest = images[images.length - 1];
 
   document.getElementById("eventImage").src = latest.download_url;
 
-  const title = latest.name
-    .replace(/\.[^/.]+$/, "")
-    .replace(/[_-]/g, " ");
-
+  const title = latest.name.replace(/\.[^/.]+$/, "").replace(/[_-]/g, " ");
   document.getElementById("eventTitle").textContent = title;
 });
 
-/* ================= ANNOUNCEMENTS ================= */
+/* ===== ANNOUNCEMENTS ===== */
 fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/announcement`)
 .then(res => res.json())
 .then(data => {
@@ -267,10 +359,7 @@ fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/announceme
   const container = document.getElementById("announcementList");
 
   pdfs.forEach(file => {
-
-    const title = file.name
-      .replace(".pdf", "")
-      .replace(/[_-]/g, " ");
+    const title = file.name.replace(".pdf", "").replace(/[_-]/g, " ");
 
     const div = document.createElement("div");
     div.className = "announcement-card";
@@ -285,6 +374,45 @@ fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/announceme
     container.appendChild(div);
   });
 });
+
+/* ===== BMI CALC ===== */
+function calcBMI(){
+  const w = parseFloat(document.getElementById("weight").value);
+  const h = parseFloat(document.getElementById("height").value);
+
+  if(!w || !h) return;
+
+  const bmi = (w/(h*h)).toFixed(1);
+
+  reset();
+
+  let result = "";
+
+  if(bmi < 18.5){
+    document.getElementById("under").classList.add("active-bad");
+    result = "Underweight";
+  }
+  else if(bmi < 25){
+    document.getElementById("normal").classList.add("active-normal");
+    result = "Normal";
+  }
+  else if(bmi < 30){
+    document.getElementById("over").classList.add("active-bad");
+    result = "Overweight";
+  }
+  else{
+    document.getElementById("obese").classList.add("active-bad");
+    result = "Obese";
+  }
+
+  document.getElementById("bmiOutput").innerText = "BMI: " + bmi + " (" + result + ")";
+}
+
+function reset(){
+  document.querySelectorAll(".bmi-results li").forEach(li=>{
+    li.classList.remove("active-normal","active-bad");
+  });
+}
 </script>
 
 </body>
