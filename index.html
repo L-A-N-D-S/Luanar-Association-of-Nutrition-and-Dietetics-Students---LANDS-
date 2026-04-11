@@ -14,6 +14,8 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   overflow-x: hidden;
+  background: white;
+  color: #222;
 }
 
 /* ===== NAVBAR ===== */
@@ -24,6 +26,7 @@ body {
   align-items: center;
   padding: 10px 20px;
   flex-wrap: wrap;
+  border-bottom: 1px solid #eee;
 }
 
 .logo img { height: 50px; }
@@ -59,14 +62,15 @@ body {
   border-radius: 10px;
 }
 
-/* ===== CARDS ===== */
+/* ===== SECTION CARD ===== */
 .section-card {
   max-width: 900px;
   margin: 25px auto;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
   background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  overflow: hidden;
+  border: 1px solid #eee;
 }
 
 .card-header {
@@ -91,18 +95,19 @@ body {
 }
 
 .event-title {
-  color: green;
-  font-weight: bold;
   margin-top: 10px;
+  font-weight: bold;
+  color: green;
 }
 
 /* ===== ANNOUNCEMENTS ===== */
 .announcement-card {
-  background: #f5f5f5;
+  background: #fafafa;
   margin: 10px auto;
   padding: 12px;
   border-radius: 10px;
   max-width: 600px;
+  border: 1px solid #eee;
 }
 
 .announcement-card h3 {
@@ -117,16 +122,16 @@ body {
   border-radius: 6px;
 }
 
-/* ===== BMI SECTION ===== */
+/* ===== BMI ===== */
 .bmi-body {
   display: flex;
   gap: 15px;
-  background: orange;
   padding: 15px;
   flex-wrap: wrap;
+  background: white;
 }
 
-/* LEFT SIDE */
+/* INPUT SIDE */
 .bmi-inputs {
   flex: 1;
   min-width: 250px;
@@ -136,39 +141,27 @@ body {
   width: 100%;
   padding: 12px;
   margin: 8px 0;
-  background: green;
-  color: white;
-  border: none;
   border-radius: 8px;
-  font-size: 16px;
-}
-
-.bmi-inputs input::placeholder {
-  color: white;
-  opacity: 0.9;
+  border: 1px solid #ccc;
+  background: white;
+  color: #222;
 }
 
 .bmi-inputs button {
   width: 100%;
   padding: 12px;
-  background: darkgreen;
+  background: green;
   color: white;
   border: none;
   border-radius: 8px;
-  font-size: 16px;
   cursor: pointer;
 }
 
-/* RIGHT SIDE */
+/* RESULT SIDE */
 .bmi-results {
   flex: 1;
   min-width: 250px;
-  text-align: left;
   padding: 10px;
-}
-
-.bmi-results h3 {
-  margin-top: 0;
 }
 
 .bmi-results ul {
@@ -179,12 +172,21 @@ body {
 .bmi-results li {
   padding: 8px;
   margin: 5px 0;
-  background: rgba(255,255,255,0.6);
   border-radius: 6px;
+  background: #f5f5f5;
+  color: #222;
 }
 
-.bmi-results li.active {
+/* ONLY NORMAL GREEN */
+.bmi-results li.active-normal {
   background: green;
+  color: white;
+  font-weight: bold;
+}
+
+/* OTHERS RED */
+.bmi-results li.active-bad {
+  background: red;
   color: white;
   font-weight: bold;
 }
@@ -194,27 +196,34 @@ body {
   margin-bottom: 10px;
 }
 
+#advice {
+  margin-top: 10px;
+  font-style: italic;
+}
+
 /* ===== FOOTER ===== */
 .footer {
-  background: orange;
-  color: white;
+  background: white;
+  color: #333;
   text-align: center;
   padding: 20px;
+  border-top: 1px solid #eee;
 }
 
 .footer-links a {
   display: block;
-  color: white;
+  color: green;
   margin: 5px 0;
   text-decoration: none;
 }
 
 .whatsapp {
   background: green;
+  color: white;
   padding: 10px;
   display: inline-block;
-  margin-top: 10px;
   border-radius: 8px;
+  margin-top: 10px;
 }
 
 /* ===== RESPONSIVE ===== */
@@ -227,6 +236,7 @@ body {
     background: white;
     width: 100%;
     text-align: center;
+    border-top: 1px solid #eee;
   }
 
   .nav-links.active { display: flex; }
@@ -275,33 +285,28 @@ body {
   <div class="card-body" id="announcementList"></div>
 </div>
 
-<!-- BMI CALCULATOR -->
+<!-- BMI -->
 <div class="section-card">
   <div class="card-header">BMI Calculator</div>
 
   <div class="bmi-body">
 
-    <!-- LEFT -->
     <div class="bmi-inputs">
-      <input type="number" id="weight" placeholder="Enter weight (kg)">
-      <input type="number" id="height" placeholder="Enter height (m)">
+      <input type="number" id="weight" placeholder="Weight (kg)">
+      <input type="number" id="height" placeholder="Height (m)">
       <button onclick="calcBMI()">GO</button>
 
       <div id="bmiOutput"></div>
+      <p id="advice"></p>
     </div>
 
-    <!-- RIGHT -->
     <div class="bmi-results">
-      <h3>Results Guide</h3>
-
-      <ul id="bmiList">
+      <ul>
         <li id="under">Underweight</li>
         <li id="normal">Normal</li>
         <li id="over">Overweight</li>
         <li id="obese">Obese</li>
       </ul>
-
-      <p id="advice"></p>
     </div>
 
   </div>
@@ -321,7 +326,6 @@ body {
     WhatsApp: +265 890 277 409
   </div>
 
-  <br>&copy; 2025 LANDS
 </footer>
 
 <script>
@@ -329,48 +333,46 @@ function toggleMenu(){
   document.getElementById("navLinks").classList.toggle("active");
 }
 
-/* ===== BMI CALCULATOR ===== */
-function calcBMI() {
+/* ===== BMI FIXED LOGIC ===== */
+function calcBMI(){
   const w = parseFloat(document.getElementById("weight").value);
   const h = parseFloat(document.getElementById("height").value);
 
-  if (!w || !h) return;
+  if(!w || !h) return;
 
-  const bmi = (w / (h * h)).toFixed(1);
-
-  let result = "";
-  let advice = "";
+  const bmi = (w/(h*h)).toFixed(1);
 
   reset();
 
-  if (bmi < 18.5) {
+  let result = "";
+
+  if(bmi < 18.5){
     result = "Underweight";
-    document.getElementById("under").classList.add("active");
-    advice = "Eat more nutritious food and increase calorie intake.";
+    document.getElementById("under").classList.add("active-bad");
+    document.getElementById("advice").innerText = "Eat more nutritious food.";
   }
-  else if (bmi < 25) {
+  else if(bmi < 25){
     result = "Normal";
-    document.getElementById("normal").classList.add("active");
-    advice = "Great job! Maintain your healthy lifestyle.";
+    document.getElementById("normal").classList.add("active-normal");
+    document.getElementById("advice").innerText = "Great! Keep healthy lifestyle.";
   }
-  else if (bmi < 30) {
+  else if(bmi < 30){
     result = "Overweight";
-    document.getElementById("over").classList.add("active");
-    advice = "Exercise more and reduce sugar/fat intake.";
+    document.getElementById("over").classList.add("active-bad");
+    document.getElementById("advice").innerText = "Exercise more.";
   }
-  else {
+  else{
     result = "Obese";
-    document.getElementById("obese").classList.add("active");
-    advice = "Seek medical advice and start a weight control plan.";
+    document.getElementById("obese").classList.add("active-bad");
+    document.getElementById("advice").innerText = "Seek medical advice.";
   }
 
   document.getElementById("bmiOutput").innerText = "BMI: " + bmi + " (" + result + ")";
-  document.getElementById("advice").innerText = advice;
 }
 
 function reset(){
-  document.querySelectorAll(".bmi-results li").forEach(li => {
-    li.classList.remove("active");
+  document.querySelectorAll(".bmi-results li").forEach(li=>{
+    li.classList.remove("active-normal","active-bad");
   });
 }
 </script>
