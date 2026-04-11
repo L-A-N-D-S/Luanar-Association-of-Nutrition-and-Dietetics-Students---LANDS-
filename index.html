@@ -11,18 +11,16 @@ body {
   font-family: Arial, sans-serif;
 }
 
-/* ===== Navbar ===== */
+/* Navbar */
 .navbar {
-  background-color: white;
+  background: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
 }
 
-.logo img {
-  height: 50px;
-}
+.logo img { height: 50px; }
 
 .menu-icon {
   font-size: 28px;
@@ -39,8 +37,8 @@ body {
 
 .nav-links a {
   color: green;
-  text-decoration: none;
   font-weight: bold;
+  text-decoration: none;
 }
 
 @media (max-width:768px){
@@ -57,35 +55,26 @@ body {
   .nav-links.active { display:flex; }
 }
 
-/* ===== Video ===== */
-.video-container {
-  text-align:center;
-  padding:20px;
-}
-
-.video-container video {
-  max-width:100%;
-  height:auto;
-}
-
-/* ===== Events ===== */
+/* Events */
 .events {
-  text-align: center;
-  padding: 30px;
-}
-
-.events h2 {
-  color: green;
+  text-align:center;
+  padding:30px;
 }
 
 .events img {
-  max-width: 90%;
-  border-radius: 10px;
-  margin-top: 15px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  max-width:90%;
+  border-radius:10px;
+  margin-top:10px;
 }
 
-/* ===== Footer ===== */
+.event-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: green;
+  margin-top: 10px;
+}
+
+/* Footer */
 .footer {
   background: orange;
   color: white;
@@ -93,29 +82,27 @@ body {
   padding: 20px;
 }
 
-.footer a {
+.footer-links a {
+  display: block;
   color: white;
-  margin: 0 10px;
   text-decoration: none;
+  margin: 5px 0;
   font-weight: bold;
 }
 
-/* WhatsApp button */
 .whatsapp {
-  display: inline-block;
   background: green;
+  display: inline-block;
   padding: 8px 15px;
-  border-radius: 8px;
   margin-top: 10px;
-  color: white;
-  font-weight: bold;
+  border-radius: 8px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- ===== Navbar ===== -->
+<!-- Navbar -->
 <nav class="navbar">
   <div class="menu-icon" onclick="toggleMenu()">☰</div>
 
@@ -131,25 +118,27 @@ body {
   </ul>
 </nav>
 
-<!-- ===== Video ===== -->
+<!-- Video -->
 <div class="video-container">
   <video autoplay muted loop playsinline>
     <source src="lands.mp4" type="video/mp4">
   </video>
 </div>
 
-<!-- ===== Events ===== -->
+<!-- Events -->
 <section class="events">
-  <h2>Upcoming Events</h2>
-  <img id="eventImage" alt="Event Image">
+  <h2 style="color:green;">Upcoming Events</h2>
+
+  <img id="eventImage">
+  <div class="event-title" id="eventTitle"></div>
 </section>
 
-<!-- ===== Footer ===== -->
+<!-- Footer -->
 <footer class="footer">
-  <div>
-    <a href="Events Us.html">Events</a> |
-    <a href="Annoucements.html">Annoucements</a> |
-    <a href="About Us.html">About Us</a> |
+  <div class="footer-links">
+    <a href="Events Us.html">Events</a>
+    <a href="Annoucements.html">Annoucements</a>
+    <a href="About Us.html">About Us</a>
     <a href="Contact Us.html">Contact Us</a>
   </div>
 
@@ -157,7 +146,7 @@ body {
     WhatsApp: +265 890 277 409
   </div>
 
-  <br>&copy; 2025 LANDS Association
+  <br>&copy; 2025 LANDS
 </footer>
 
 <script>
@@ -165,10 +154,10 @@ function toggleMenu(){
   document.getElementById("navLinks").classList.toggle("active");
 }
 
-/* ===== GitHub API FIX ===== */
+/* ===== GitHub API ===== */
 const repoOwner = "l-a-n-d-s";
 const repoName = "Luanar-Association-of-Nutrition-and-Dietetics-Students---LANDS-";
-const folder = "events";
+const folder = "event";
 
 fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folder}`)
 .then(res => res.json())
@@ -179,12 +168,21 @@ fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folder}`
   );
 
   if(images.length > 0){
-    // safer: pick FIRST image instead of last
-    document.getElementById("eventImage").src = images[0].download_url;
+    const latest = images[0];
+
+    // show image
+    document.getElementById("eventImage").src = latest.download_url;
+
+    // generate title from filename
+    let title = latest.name
+      .replace(/\.[^/.]+$/, "")  // remove extension
+      .replace(/[_-]/g, " ");    // replace _ or - with space
+
+    document.getElementById("eventTitle").textContent = title;
   }
 
 })
-.catch(err => console.error("Error loading images:", err));
+.catch(err => console.log(err));
 </script>
 
 </body>
