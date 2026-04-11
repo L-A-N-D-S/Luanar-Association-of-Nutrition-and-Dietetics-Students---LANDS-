@@ -6,9 +6,7 @@
 <title>LANDS</title>
 
 <style>
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -27,9 +25,7 @@ body {
   flex-wrap: wrap;
 }
 
-.logo img {
-  height: 50px;
-}
+.logo img { height: 50px; }
 
 .menu-icon {
   font-size: 30px;
@@ -38,7 +34,6 @@ body {
   color: green;
 }
 
-/* NAV LINKS */
 .nav-links {
   list-style: none;
   display: flex;
@@ -49,7 +44,12 @@ body {
   color: green;
   font-weight: bold;
   text-decoration: none;
+  cursor: pointer;
 }
+
+/* ===== SECTIONS ===== */
+.section { display: none; }
+.section.active { display: block; }
 
 /* ===== VIDEO ===== */
 .video-container {
@@ -88,7 +88,7 @@ body {
   text-align: center;
 }
 
-/* EVENTS IMAGE */
+/* ===== EVENTS ===== */
 .section-card img {
   width: 100%;
   max-width: 600px;
@@ -105,9 +105,7 @@ body {
   border: 1px solid #eee;
 }
 
-.announcement-card h3 {
-  color: green;
-}
+.announcement-card h3 { color: green; }
 
 .announcement-card button {
   background: green;
@@ -124,8 +122,7 @@ body {
   gap: 15px;
 }
 
-.bmi-inputs,
-.bmi-results {
+.bmi-inputs, .bmi-results {
   flex: 1;
   min-width: 250px;
 }
@@ -159,7 +156,6 @@ body {
   border-radius: 6px;
 }
 
-/* ACTIVE STATES */
 .active-normal {
   background: green !important;
   color: white !important;
@@ -197,12 +193,15 @@ body {
   margin-top: 10px;
 }
 
-/* ================= MOBILE ================= */
+.copyright {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+/* ===== MOBILE ===== */
 @media (max-width: 768px) {
 
-  .menu-icon {
-    display: block;
-  }
+  .menu-icon { display: block; }
 
   .nav-links {
     display: none;
@@ -214,9 +213,7 @@ body {
     border-top: 1px solid #eee;
   }
 
-  .nav-links.active {
-    display: flex;
-  }
+  .nav-links.active { display: flex; }
 
   .nav-links li {
     text-align: center;
@@ -225,16 +222,6 @@ body {
 
   .bmi-wrapper {
     flex-direction: column;
-  }
-
-  .card-header {
-    font-size: 16px;
-  }
-}
-
-@media (max-width: 480px) {
-  .logo img {
-    height: 40px;
   }
 }
 </style>
@@ -248,129 +235,202 @@ body {
   <div class="logo"><img src="logo.png"></div>
 
   <ul class="nav-links" id="navLinks">
-    <li><a href="Events Us.html">Events</a></li>
-    <li><a href="Annoucements.html">Announcements</a></li>
-    <li><a href="About Us.html">About Us</a></li>
-    <li><a href="Contact Us.html">Contact Us</a></li>
+    <li><a onclick="showSection('home')">Home</a></li>
+    <li><a onclick="showSection('events')">Events</a></li>
+    <li><a onclick="showSection('announcements')">Announcements</a></li>
+    <li><a onclick="showSection('about')">About</a></li>
+    <li><a onclick="showSection('contact')">Contact</a></li>
   </ul>
 </nav>
 
-<!-- VIDEO -->
-<div class="video-container">
-  <video autoplay muted loop playsinline>
-    <source src="lands.mp4">
-  </video>
+<!-- HOME -->
+<div id="home" class="section active">
+
+  <div class="video-container">
+    <video autoplay muted loop playsinline>
+      <source src="lands.mp4">
+    </video>
+  </div>
+
+  <div class="section-card">
+    <div class="card-header">Latest Event</div>
+    <div class="card-body">
+      <img id="homeEventImg">
+      <div id="homeEventTitle"></div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="card-header">Latest Announcement</div>
+    <div class="card-body" id="homeAnnouncements"></div>
+  </div>
+
+  <!-- BMI -->
+  <div class="section-card">
+    <div class="card-header">BMI Calculator</div>
+
+    <div class="card-body">
+      <div class="bmi-wrapper">
+
+        <div class="bmi-inputs">
+          <input type="number" id="weight" placeholder="Weight (kg)">
+          <input type="number" id="height" placeholder="Height (m)">
+          <button onclick="calcBMI()">GO</button>
+
+          <div id="bmiOutput"></div>
+          <div id="advice"></div>
+        </div>
+
+        <div class="bmi-results">
+          <ul>
+            <li id="under">Underweight</li>
+            <li id="normal">Normal</li>
+            <li id="over">Overweight</li>
+            <li id="obese">Obese</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <!-- EVENTS -->
-<div class="section-card">
-  <div class="card-header">Upcoming Events</div>
-  <div class="card-body">
-    <img id="eventImage">
-    <div class="event-title" id="eventTitle"></div>
+<div id="events" class="section">
+  <div class="section-card">
+    <div class="card-header">All Events</div>
+    <div class="card-body" id="eventsList"></div>
   </div>
 </div>
 
 <!-- ANNOUNCEMENTS -->
-<div class="section-card">
-  <div class="card-header">Announcements</div>
-  <div class="card-body" id="announcementList"></div>
+<div id="announcements" class="section">
+  <div class="section-card">
+    <div class="card-header">All Announcements</div>
+    <div class="card-body" id="announcementsList"></div>
+  </div>
 </div>
 
-<!-- BMI -->
-<div class="section-card">
-  <div class="card-header">BMI Calculator</div>
+<!-- ABOUT -->
+<div id="about" class="section">
+  <div class="section-card">
+    <div class="card-header">About</div>
+    <div class="card-body">
+      LANDS is a student association focused on nutrition and dietetics.
+    </div>
+  </div>
+</div>
 
-  <div class="card-body">
-    <div class="bmi-wrapper">
-
-      <div class="bmi-inputs">
-        <input type="number" id="weight" placeholder="Weight (kg)">
-        <input type="number" id="height" placeholder="Height (m)">
-        <button onclick="calcBMI()">GO</button>
-
-        <div id="bmiOutput" style="margin-top:10px;font-weight:bold;"></div>
-        <div id="advice" style="margin-top:8px;"></div>
-      </div>
-
-      <div class="bmi-results">
-        <ul>
-          <li id="under">Underweight</li>
-          <li id="normal">Normal</li>
-          <li id="over">Overweight</li>
-          <li id="obese">Obese</li>
-        </ul>
-      </div>
-
+<!-- CONTACT -->
+<div id="contact" class="section">
+  <div class="section-card">
+    <div class="card-header">Contact</div>
+    <div class="card-body">
+      WhatsApp: +265 890 277 409
     </div>
   </div>
 </div>
 
 <!-- FOOTER -->
 <footer class="footer">
+
   <div class="footer-links">
-    <a href="Events Us.html">Events</a>
-    <a href="Annoucements.html">Announcements</a>
-    <a href="About Us.html">About Us</a>
-    <a href="Contact Us.html">Contact Us</a>
+    <a onclick="showSection('home')">Home</a>
+    <a onclick="showSection('events')">Events</a>
+    <a onclick="showSection('announcements')">Announcements</a>
+    <a onclick="showSection('about')">About</a>
+    <a onclick="showSection('contact')">Contact</a>
   </div>
 
-  <div class="whatsapp">
-    WhatsApp: +265 890 277 409
+  <div class="copyright">
+    ©️ Luanar Association of Nutrition and Dietetics Students 2025
   </div>
+
 </footer>
 
 <script>
+
 function toggleMenu(){
   document.getElementById("navLinks").classList.toggle("active");
 }
 
-/* ===== EVENTS ===== */
+/* ===== PAGE SWITCH ===== */
+function showSection(id){
+  document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  document.getElementById("navLinks").classList.remove("active");
+}
+
+/* ===== DATA ===== */
 const repoOwner = "l-a-n-d-s";
 const repoName = "Luanar-Association-of-Nutrition-and-Dietetics-Students---LANDS-";
 
-fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/event`)
-.then(res => res.json())
-.then(data => {
+let events = [];
+let announcements = [];
+
+/* ===== EVENTS ===== */
+async function loadEvents(){
+  const res = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/event`);
+  const data = await res.json();
+
   if(!Array.isArray(data)) return;
 
-  const images = data.filter(f => /\.(jpg|jpeg|png)$/i.test(f.name));
-  if(images.length === 0) return;
+  events = data.filter(f => /\.(jpg|jpeg|png)$/i.test(f.name));
 
-  const latest = images[images.length - 1];
+  if(events.length){
+    let latest = events[events.length - 1];
 
-  document.getElementById("eventImage").src = latest.download_url;
+    document.getElementById("homeEventImg").src = latest.download_url;
+    document.getElementById("homeEventTitle").innerText =
+      latest.name.replace(/\.[^/.]+$/, "").replace(/[_-]/g, " ");
+  }
 
-  const title = latest.name.replace(/\.[^/.]+$/, "").replace(/[_-]/g, " ");
-  document.getElementById("eventTitle").textContent = title;
-});
+  let container = document.getElementById("eventsList");
+  container.innerHTML = "";
+
+  events.forEach(f => {
+    container.innerHTML += `
+      <div class="announcement-card">
+        <img src="${f.download_url}" style="width:100%;border-radius:10px;">
+        <h3>${f.name.replace(/\.[^/.]+$/, "")}</h3>
+      </div>
+    `;
+  });
+}
 
 /* ===== ANNOUNCEMENTS ===== */
-fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/announcement`)
-.then(res => res.json())
-.then(data => {
+async function loadAnnouncements(){
+  const res = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/announcement`);
+  const data = await res.json();
+
   if(!Array.isArray(data)) return;
 
-  const pdfs = data.filter(f => f.name.endsWith(".pdf"));
-  const container = document.getElementById("announcementList");
+  announcements = data.filter(f => f.name.endsWith(".pdf"));
 
-  pdfs.forEach(file => {
+  if(announcements.length){
+    let latest = announcements[announcements.length - 1];
 
-    const title = file.name.replace(".pdf", "").replace(/[_-]/g, " ");
-
-    const div = document.createElement("div");
-    div.className = "announcement-card";
-
-    div.innerHTML = `
-      <h3>${title}</h3>
-      <button onclick="window.open('${file.download_url}','_blank')">
-        View PDF
-      </button>
+    document.getElementById("homeAnnouncements").innerHTML = `
+      <div class="announcement-card">
+        <h3>${latest.name.replace(".pdf","")}</h3>
+        <button onclick="window.open('${latest.download_url}')">View</button>
+      </div>
     `;
+  }
 
-    container.appendChild(div);
+  let container = document.getElementById("announcementsList");
+  container.innerHTML = "";
+
+  announcements.forEach(f => {
+    container.innerHTML += `
+      <div class="announcement-card">
+        <h3>${f.name.replace(".pdf","")}</h3>
+        <button onclick="window.open('${f.download_url}')">View PDF</button>
+      </div>
+    `;
   });
-});
+}
 
 /* ===== BMI ===== */
 function calcBMI(){
@@ -385,33 +445,37 @@ function calcBMI(){
     li.classList.remove("active-normal","active-bad");
   });
 
-  let result = "";
-  let advice = "";
+  let result = "", advice = "";
 
   if(bmi < 18.5){
     document.getElementById("under").classList.add("active-bad");
     result = "Underweight";
-    advice = "Increase calorie intake with balanced foods.";
+    advice = "Eat more nutritious food.";
   }
   else if(bmi < 25){
     document.getElementById("normal").classList.add("active-normal");
     result = "Normal";
-    advice = "Great job! Keep maintaining your lifestyle.";
+    advice = "Good job!";
   }
   else if(bmi < 30){
     document.getElementById("over").classList.add("active-bad");
     result = "Overweight";
-    advice = "Increase physical activity and reduce sugar.";
+    advice = "Exercise more.";
   }
   else{
     document.getElementById("obese").classList.add("active-bad");
     result = "Obese";
-    advice = "Seek medical advice and improve diet.";
+    advice = "Seek medical advice.";
   }
 
   document.getElementById("bmiOutput").innerText = `BMI: ${bmi} (${result})`;
   document.getElementById("advice").innerText = advice;
 }
+
+/* INIT */
+loadEvents();
+loadAnnouncements();
+
 </script>
 
 </body>
