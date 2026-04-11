@@ -68,7 +68,7 @@ body {
   height:auto;
 }
 
-/* ===== Events Section ===== */
+/* ===== Events ===== */
 .events {
   text-align: center;
   padding: 30px;
@@ -91,6 +91,24 @@ body {
   color: white;
   text-align: center;
   padding: 20px;
+}
+
+.footer a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* WhatsApp button */
+.whatsapp {
+  display: inline-block;
+  background: green;
+  padding: 8px 15px;
+  border-radius: 8px;
+  margin-top: 10px;
+  color: white;
+  font-weight: bold;
 }
 </style>
 </head>
@@ -120,15 +138,26 @@ body {
   </video>
 </div>
 
-<!-- ===== Upcoming Events ===== -->
+<!-- ===== Events ===== -->
 <section class="events">
   <h2>Upcoming Events</h2>
-  <img id="eventImage" alt="Latest Event">
+  <img id="eventImage" alt="Event Image">
 </section>
 
 <!-- ===== Footer ===== -->
 <footer class="footer">
-  <p>&copy; 2025 LANDS Association</p>
+  <div>
+    <a href="Events Us.html">Events</a> |
+    <a href="Annoucements.html">Annoucements</a> |
+    <a href="About Us.html">About Us</a> |
+    <a href="Contact Us.html">Contact Us</a>
+  </div>
+
+  <div class="whatsapp">
+    WhatsApp: +265 890 277 409
+  </div>
+
+  <br>&copy; 2025 LANDS Association
 </footer>
 
 <script>
@@ -136,7 +165,7 @@ function toggleMenu(){
   document.getElementById("navLinks").classList.toggle("active");
 }
 
-/* ===== GitHub API ===== */
+/* ===== GitHub API FIX ===== */
 const repoOwner = "l-a-n-d-s";
 const repoName = "Luanar-Association-of-Nutrition-and-Dietetics-Students---LANDS-";
 const folder = "events";
@@ -144,19 +173,18 @@ const folder = "events";
 fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folder}`)
 .then(res => res.json())
 .then(data => {
-  // filter only images
+
   const images = data.filter(file =>
-    file.name.endsWith(".jpg") ||
-    file.name.endsWith(".png") ||
-    file.name.endsWith(".jpeg")
+    file.name.match(/\.(jpg|jpeg|png)$/i)
   );
 
   if(images.length > 0){
-    const latest = images[images.length - 1];
-    document.getElementById("eventImage").src = latest.download_url;
+    // safer: pick FIRST image instead of last
+    document.getElementById("eventImage").src = images[0].download_url;
   }
+
 })
-.catch(err => console.error("Error:", err));
+.catch(err => console.error("Error loading images:", err));
 </script>
 
 </body>
