@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us - LANDS</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: white;
+}
+
+/* NAVBAR */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.logo img { height: 50px; }
+
+.nav-links a {
+  color: green;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* CARD */
+.section-card {
+  width: 95%;
+  max-width: 900px;
+  margin: 25px auto;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  border: 1px solid #eee;
+}
+
+.card-header {
+  background: green;
+  color: white;
+  text-align: center;
+  padding: 12px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.card-body {
+  padding: 20px;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* WHATSAPP BUTTON */
+.whatsapp-btn {
+  display: inline-block;
+  margin-top: 15px;
+  background: green;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* MOBILE */
+@media(max-width:600px){
+  .card-body {
+    padding: 15px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav class="navbar">
+  <div class="logo"><img src="logo.png"></div>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+  </div>
+</nav>
+
+<!-- ABOUT -->
+<div class="section-card">
+
+  <div class="card-header">About Us</div>
+
+  <div class="card-body">
+
+    <p>
+      The Luanar Association of Nutrition and Dietetics Students (LANDS) is a 
+      non-profitable student organisation composed of students from the 
+      Lilongwe University of Agriculture and Natural Resources (LUANAR), 
+      bringing together members from both the Natural Resources Campus and 
+      Bunda Campus.
+    </p>
+
+    <p>
+      Our goal is to promote awareness and knowledge in nutrition and dietetics, 
+      support student development, and contribute positively to community health 
+      through education and engagement.
+    </p>
+
+    <p>
+      LANDS is open to anyone who is interested in nutrition and dietetics. 
+      We encourage students to join, participate, and grow together as future 
+      professionals in the field.
+    </p>
+
+    <p>
+      We are also looking for partnerships with other organisations, institutions, 
+      and stakeholders who are willing to support and collaborate with a 
+      student-based initiative like ours.
+    </p>
+
+    <a href="https://wa.me/265890277409" class="whatsapp-btn">
+      WhatsApp
+    </a>
+
+  </div>
+
+</div>
+
+</body>
+</html>
