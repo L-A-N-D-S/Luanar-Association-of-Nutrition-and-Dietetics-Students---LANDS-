@@ -168,6 +168,61 @@ body {
   font-weight: bold;
 }
 
+/* ===== EXECUTIVES ===== */
+.exec-card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  background:#fafafa;
+  margin:10px auto;
+  padding:12px;
+  border-radius:12px;
+  max-width:700px;
+  border:1px solid #eee;
+  flex-wrap:wrap;
+}
+
+.exec-card img{
+  width:90px;
+  height:90px;
+  object-fit:cover;
+  border-radius:50%;
+  border:3px solid green;
+}
+
+.exec-info{
+  flex:1;
+  text-align:left;
+  min-width:200px;
+}
+
+.exec-info h3{
+  margin:0;
+  color:green;
+}
+
+.exec-info button{
+  margin-top:8px;
+  background:green;
+  color:white;
+  border:none;
+  padding:8px 12px;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+@media(max-width:600px){
+  .exec-card{
+    flex-direction:column;
+    text-align:center;
+  }
+
+  .exec-info{
+    text-align:center;
+  }
+}
+
 /* ===== FOOTER ===== */
 .footer {
   background: orange;
@@ -265,10 +320,8 @@ body {
     <div class="card-body" id="homeAnnouncements"></div>
   </div>
 
-  <!-- BMI -->
   <div class="section-card">
     <div class="card-header">BMI Calculator</div>
-
     <div class="card-body">
       <div class="bmi-wrapper">
 
@@ -322,13 +375,11 @@ body {
   </div>
 </div>
 
-<!-- CONTACT -->
+<!-- CONTACT / EXECUTIVES -->
 <div id="contact" class="section">
   <div class="section-card">
-    <div class="card-header">Contact</div>
-    <div class="card-body">
-      WhatsApp: +265 890 277 409
-    </div>
+    <div class="card-header">Executive Members</div>
+    <div class="card-body" id="execList"></div>
   </div>
 </div>
 
@@ -343,6 +394,10 @@ body {
     <a onclick="showSection('contact')">Contact</a>
   </div>
 
+  <div class="whatsapp">
+    WhatsApp: +265 890 277 409
+  </div>
+
   <div class="copyright">
     ©️ Luanar Association of Nutrition and Dietetics Students 2025
   </div>
@@ -355,7 +410,6 @@ function toggleMenu(){
   document.getElementById("navLinks").classList.toggle("active");
 }
 
-/* ===== PAGE SWITCH ===== */
 function showSection(id){
   document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
   document.getElementById(id).classList.add("active");
@@ -366,8 +420,18 @@ function showSection(id){
 const repoOwner = "l-a-n-d-s";
 const repoName = "Luanar-Association-of-Nutrition-and-Dietetics-Students---LANDS-";
 
-let events = [];
-let announcements = [];
+/* ===== EXECUTIVES ===== */
+const execData = [
+  {name:"Promise Chagweruka", phone:"265XXXXXXXXX"},
+  {name:"Kingsley Vilozyo", phone:"265XXXXXXXXX"},
+  {name:"Samson Shadrek", phone:"265XXXXXXXXX"},
+  {name:"Madalitso Kumilonde", phone:"265XXXXXXXXX"},
+  {name:"Trinity Zalira", phone:"265XXXXXXXXX"},
+  {name:"Martin Nyirongo", phone:"265XXXXXXXXX"},
+  {name:"Memory Motcha", phone:"265XXXXXXXXX"},
+  {name:"Yafeti Chidzaye", phone:"265XXXXXXXXX"},
+  {name:"Mathews Kasambo", phone:"265XXXXXXXXX"}
+];
 
 /* ===== EVENTS ===== */
 async function loadEvents(){
@@ -376,20 +440,20 @@ async function loadEvents(){
 
   if(!Array.isArray(data)) return;
 
-  events = data.filter(f => /\.(jpg|jpeg|png)$/i.test(f.name));
+  const images = data.filter(f => /\.(jpg|jpeg|png)$/i.test(f.name));
 
-  if(events.length){
-    let latest = events[events.length - 1];
+  if(images.length){
+    let latest = images[images.length - 1];
 
     document.getElementById("homeEventImg").src = latest.download_url;
     document.getElementById("homeEventTitle").innerText =
-      latest.name.replace(/\.[^/.]+$/, "").replace(/[_-]/g, " ");
+      latest.name.replace(/\.[^/.]+$/, "").replace(/[_-]/g," ");
   }
 
   let container = document.getElementById("eventsList");
   container.innerHTML = "";
 
-  events.forEach(f => {
+  images.forEach(f => {
     container.innerHTML += `
       <div class="announcement-card">
         <img src="${f.download_url}" style="width:100%;border-radius:10px;">
@@ -406,10 +470,10 @@ async function loadAnnouncements(){
 
   if(!Array.isArray(data)) return;
 
-  announcements = data.filter(f => f.name.endsWith(".pdf"));
+  const pdfs = data.filter(f => f.name.endsWith(".pdf"));
 
-  if(announcements.length){
-    let latest = announcements[announcements.length - 1];
+  if(pdfs.length){
+    let latest = pdfs[pdfs.length - 1];
 
     document.getElementById("homeAnnouncements").innerHTML = `
       <div class="announcement-card">
@@ -422,11 +486,40 @@ async function loadAnnouncements(){
   let container = document.getElementById("announcementsList");
   container.innerHTML = "";
 
-  announcements.forEach(f => {
+  pdfs.forEach(f => {
     container.innerHTML += `
       <div class="announcement-card">
         <h3>${f.name.replace(".pdf","")}</h3>
         <button onclick="window.open('${f.download_url}')">View PDF</button>
+      </div>
+    `;
+  });
+}
+
+/* ===== EXECUTIVES ===== */
+async function loadExec(){
+  const res = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/executive`);
+  const data = await res.json();
+
+  if(!Array.isArray(data)) return;
+
+  const images = data.filter(f => /\.(jpg|jpeg|png)$/i.test(f.name));
+
+  let container = document.getElementById("execList");
+  container.innerHTML = "";
+
+  images.forEach((img, i) => {
+    let person = execData[i];
+
+    container.innerHTML += `
+      <div class="exec-card">
+        <img src="${img.download_url}">
+        <div class="exec-info">
+          <h3>${person.name}</h3>
+          <button onclick="window.open('https://wa.me/${person.phone}','_blank')">
+            WhatsApp
+          </button>
+        </div>
       </div>
     `;
   });
@@ -445,27 +538,24 @@ function calcBMI(){
     li.classList.remove("active-normal","active-bad");
   });
 
-  let result = "", advice = "";
+  let result="", advice="";
 
   if(bmi < 18.5){
     document.getElementById("under").classList.add("active-bad");
-    result = "Underweight";
-    advice = "Eat more nutritious food.";
-  }
-  else if(bmi < 25){
+    result="Underweight";
+    advice="Eat more nutritious food.";
+  } else if(bmi < 25){
     document.getElementById("normal").classList.add("active-normal");
-    result = "Normal";
-    advice = "Good job!";
-  }
-  else if(bmi < 30){
+    result="Normal";
+    advice="Good job!";
+  } else if(bmi < 30){
     document.getElementById("over").classList.add("active-bad");
-    result = "Overweight";
-    advice = "Exercise more.";
-  }
-  else{
+    result="Overweight";
+    advice="Exercise more.";
+  } else {
     document.getElementById("obese").classList.add("active-bad");
-    result = "Obese";
-    advice = "Seek medical advice.";
+    result="Obese";
+    advice="Seek medical advice.";
   }
 
   document.getElementById("bmiOutput").innerText = `BMI: ${bmi} (${result})`;
@@ -475,6 +565,7 @@ function calcBMI(){
 /* INIT */
 loadEvents();
 loadAnnouncements();
+loadExec();
 
 </script>
 
