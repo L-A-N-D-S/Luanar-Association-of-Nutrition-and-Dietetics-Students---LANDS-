@@ -13,9 +13,7 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  overflow-x: hidden;
   background: white;
-  color: #222;
 }
 
 /* ===== NAVBAR ===== */
@@ -25,11 +23,12 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  flex-wrap: wrap;
   border-bottom: 1px solid #eee;
 }
 
-.logo img { height: 50px; }
+.logo img {
+  height: 50px;
+}
 
 .menu-icon {
   font-size: 28px;
@@ -62,7 +61,7 @@ body {
   border-radius: 10px;
 }
 
-/* ===== SECTION CARD ===== */
+/* ===== CARD ===== */
 .section-card {
   max-width: 900px;
   margin: 25px auto;
@@ -122,99 +121,21 @@ body {
   border-radius: 6px;
 }
 
-/* ===== BMI ===== */
-.bmi-body {
-  display: flex;
-  gap: 15px;
-  padding: 15px;
-  flex-wrap: wrap;
-  background: white;
-}
-
-/* INPUT SIDE */
-.bmi-inputs {
-  flex: 1;
-  min-width: 250px;
-}
-
-.bmi-inputs input {
-  width: 100%;
-  padding: 12px;
-  margin: 8px 0;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  background: white;
-  color: #222;
-}
-
-.bmi-inputs button {
-  width: 100%;
-  padding: 12px;
-  background: green;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-/* RESULT SIDE */
-.bmi-results {
-  flex: 1;
-  min-width: 250px;
-  padding: 10px;
-}
-
-.bmi-results ul {
-  list-style: none;
-  padding: 0;
-}
-
-.bmi-results li {
-  padding: 8px;
-  margin: 5px 0;
-  border-radius: 6px;
-  background: #f5f5f5;
-  color: #222;
-}
-
-/* ONLY NORMAL GREEN */
-.bmi-results li.active-normal {
-  background: green;
-  color: white;
-  font-weight: bold;
-}
-
-/* OTHERS RED */
-.bmi-results li.active-bad {
-  background: red;
-  color: white;
-  font-weight: bold;
-}
-
-#bmiOutput {
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-#advice {
-  margin-top: 10px;
-  font-style: italic;
-}
-
-/* ===== FOOTER ===== */
+/* ===== FOOTER (KEEP ORANGE ONLY) ===== */
 .footer {
-  background: white;
-  color: #333;
+  background: orange;
+  color: white;
   text-align: center;
   padding: 20px;
-  border-top: 1px solid #eee;
+  margin-top: 30px;
 }
 
 .footer-links a {
   display: block;
-  color: green;
+  color: white;
   margin: 5px 0;
   text-decoration: none;
+  font-weight: bold;
 }
 
 .whatsapp {
@@ -236,13 +157,10 @@ body {
     background: white;
     width: 100%;
     text-align: center;
-    border-top: 1px solid #eee;
   }
 
-  .nav-links.active { display: flex; }
-
-  .bmi-body {
-    flex-direction: column;
+  .nav-links.active {
+    display: flex;
   }
 }
 </style>
@@ -253,7 +171,10 @@ body {
 <!-- NAVBAR -->
 <nav class="navbar">
   <div class="menu-icon" onclick="toggleMenu()">☰</div>
-  <div class="logo"><img src="logo.png"></div>
+
+  <div class="logo">
+    <img src="logo.png">
+  </div>
 
   <ul class="nav-links" id="navLinks">
     <li><a href="Events Us.html">Events</a></li>
@@ -274,7 +195,7 @@ body {
 <div class="section-card">
   <div class="card-header">Upcoming Events</div>
   <div class="card-body events">
-    <img id="eventImage">
+    <img id="eventImage" alt="event">
     <div class="event-title" id="eventTitle"></div>
   </div>
 </div>
@@ -283,33 +204,6 @@ body {
 <div class="section-card">
   <div class="card-header">Announcements</div>
   <div class="card-body" id="announcementList"></div>
-</div>
-
-<!-- BMI -->
-<div class="section-card">
-  <div class="card-header">BMI Calculator</div>
-
-  <div class="bmi-body">
-
-    <div class="bmi-inputs">
-      <input type="number" id="weight" placeholder="Weight (kg)">
-      <input type="number" id="height" placeholder="Height (m)">
-      <button onclick="calcBMI()">GO</button>
-
-      <div id="bmiOutput"></div>
-      <p id="advice"></p>
-    </div>
-
-    <div class="bmi-results">
-      <ul>
-        <li id="under">Underweight</li>
-        <li id="normal">Normal</li>
-        <li id="over">Overweight</li>
-        <li id="obese">Obese</li>
-      </ul>
-    </div>
-
-  </div>
 </div>
 
 <!-- FOOTER -->
@@ -326,6 +220,7 @@ body {
     WhatsApp: +265 890 277 409
   </div>
 
+  <br>&copy; 2025 LANDS
 </footer>
 
 <script>
@@ -333,48 +228,63 @@ function toggleMenu(){
   document.getElementById("navLinks").classList.toggle("active");
 }
 
-/* ===== BMI FIXED LOGIC ===== */
-function calcBMI(){
-  const w = parseFloat(document.getElementById("weight").value);
-  const h = parseFloat(document.getElementById("height").value);
+/* ================= EVENTS ================= */
+const repoOwner = "l-a-n-d-s";
+const repoName = "Luanar-Association-of-Nutrition-and-Dietetics-Students---LANDS-";
 
-  if(!w || !h) return;
+fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/event`)
+.then(res => res.json())
+.then(data => {
 
-  const bmi = (w/(h*h)).toFixed(1);
+  if(!Array.isArray(data)) return;
 
-  reset();
+  const images = data.filter(f =>
+    /\.(jpg|jpeg|png)$/i.test(f.name)
+  );
 
-  let result = "";
+  if(images.length === 0) return;
 
-  if(bmi < 18.5){
-    result = "Underweight";
-    document.getElementById("under").classList.add("active-bad");
-    document.getElementById("advice").innerText = "Eat more nutritious food.";
-  }
-  else if(bmi < 25){
-    result = "Normal";
-    document.getElementById("normal").classList.add("active-normal");
-    document.getElementById("advice").innerText = "Great! Keep healthy lifestyle.";
-  }
-  else if(bmi < 30){
-    result = "Overweight";
-    document.getElementById("over").classList.add("active-bad");
-    document.getElementById("advice").innerText = "Exercise more.";
-  }
-  else{
-    result = "Obese";
-    document.getElementById("obese").classList.add("active-bad");
-    document.getElementById("advice").innerText = "Seek medical advice.";
-  }
+  const latest = images[images.length - 1]; // safest latest
 
-  document.getElementById("bmiOutput").innerText = "BMI: " + bmi + " (" + result + ")";
-}
+  document.getElementById("eventImage").src = latest.download_url;
 
-function reset(){
-  document.querySelectorAll(".bmi-results li").forEach(li=>{
-    li.classList.remove("active-normal","active-bad");
+  const title = latest.name
+    .replace(/\.[^/.]+$/, "")
+    .replace(/[_-]/g, " ");
+
+  document.getElementById("eventTitle").textContent = title;
+});
+
+/* ================= ANNOUNCEMENTS ================= */
+fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/announcement`)
+.then(res => res.json())
+.then(data => {
+
+  if(!Array.isArray(data)) return;
+
+  const pdfs = data.filter(f => f.name.endsWith(".pdf"));
+
+  const container = document.getElementById("announcementList");
+
+  pdfs.forEach(file => {
+
+    const title = file.name
+      .replace(".pdf", "")
+      .replace(/[_-]/g, " ");
+
+    const div = document.createElement("div");
+    div.className = "announcement-card";
+
+    div.innerHTML = `
+      <h3>${title}</h3>
+      <button onclick="window.open('${file.download_url}','_blank')">
+        View PDF
+      </button>
+    `;
+
+    container.appendChild(div);
   });
-}
+});
 </script>
 
 </body>
