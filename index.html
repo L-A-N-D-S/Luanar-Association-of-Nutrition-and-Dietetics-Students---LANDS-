@@ -14,114 +14,276 @@ body {
   background: white;
 }
 
-/* NAVBAR */
+/* ===== NAVBAR ===== */
 .navbar {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:10px 20px;
-  border-bottom:1px solid #eee;
-  flex-wrap:wrap;
+  background: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  border-bottom: 1px solid #eee;
+  flex-wrap: wrap;
 }
 
-.logo img { height:50px; }
+.logo img { height: 50px; }
 
 .menu-icon {
-  font-size:30px;
-  display:none;
-  cursor:pointer;
-  color:green;
+  font-size: 30px;
+  cursor: pointer;
+  display: none;
+  color: green;
 }
 
 .nav-links {
-  list-style:none;
-  display:flex;
-  gap:20px;
+  list-style: none;
+  display: flex;
+  gap: 20px;
 }
 
 .nav-links a {
-  color:green;
-  font-weight:bold;
-  cursor:pointer;
+  color: green;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
 }
 
-/* SECTIONS */
-.section { display:none; }
-.section.active { display:block; }
+/* ===== SECTIONS ===== */
+.section { display: none; }
+.section.active { display: block; }
 
-/* VIDEO */
+/* ===== VIDEO ===== */
+.video-container {
+  text-align: center;
+  padding: 10px;
+}
+
 .video-container video {
-  width:100%;
-  max-width:900px;
-  border-radius:10px;
+  width: 100%;
+  max-width: 900px;
+  border-radius: 10px;
 }
 
-/* CARDS */
+/* ===== CARD ===== */
 .section-card {
-  width:95%;
-  max-width:900px;
-  margin:25px auto;
-  border-radius:12px;
-  box-shadow:0 2px 10px rgba(0,0,0,0.08);
+  width: 95%;
+  max-width: 900px;
+  margin: 25px auto;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  border: 1px solid #eee;
 }
 
 .card-header {
-  background:green;
-  color:white;
-  text-align:center;
-  padding:12px;
-  font-weight:bold;
+  background: green;
+  color: white;
+  text-align: center;
+  padding: 12px;
+  font-size: 20px;
+  font-weight: bold;
 }
 
-.card-body { padding:15px; }
+.card-body {
+  padding: 15px;
+  text-align: center;
+}
 
-/* ANNOUNCEMENTS */
+/* ===== EVENTS ===== */
+.section-card img {
+  width: 100%;
+  max-width: 600px;
+  border-radius: 10px;
+}
+
+/* ===== ANNOUNCEMENTS ===== */
 .announcement-card {
-  background:#fafafa;
-  margin:10px auto;
-  padding:12px;
-  border-radius:10px;
-  max-width:600px;
+  background: #fafafa;
+  margin: 10px auto;
+  padding: 12px;
+  border-radius: 10px;
+  max-width: 600px;
+  border: 1px solid #eee;
 }
 
-button {
-  background:green;
-  color:white;
-  border:none;
-  padding:8px;
-  border-radius:6px;
+.announcement-card h3 { color: green; }
+
+.announcement-card button {
+  background: green;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
 }
 
-/* EXEC */
+/* ===== BMI ===== */
+.bmi-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.bmi-inputs, .bmi-results {
+  flex: 1;
+  min-width: 250px;
+}
+
+.bmi-inputs input {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.bmi-inputs button {
+  width: 100%;
+  padding: 12px;
+  background: green;
+  color: white;
+  border: none;
+  border-radius: 8px;
+}
+
+.bmi-results ul {
+  list-style: none;
+  padding: 0;
+}
+
+.bmi-results li {
+  padding: 8px;
+  margin: 5px 0;
+  background: #f5f5f5;
+  border-radius: 6px;
+}
+
+.active-normal {
+  background: green !important;
+  color: white !important;
+  font-weight: bold;
+}
+
+.active-bad {
+  background: red !important;
+  color: white !important;
+  font-weight: bold;
+}
+
+/* ===== EXECUTIVES ===== */
 .exec-card{
   display:flex;
   align-items:center;
+  justify-content:space-between;
   gap:15px;
+  background:#fafafa;
   margin:10px auto;
+  padding:12px;
+  border-radius:12px;
   max-width:700px;
+  border:1px solid #eee;
+  flex-wrap:wrap;
 }
 
 .exec-card img{
   width:90px;
   height:90px;
-  border-radius:50%;
   object-fit:cover;
+  border-radius:50%;
+  border:3px solid green;
 }
 
-.exec-info h3 { margin:0; color:green; }
+.exec-info{
+  flex:1;
+  text-align:left;
+  min-width:200px;
+}
 
-/* MOBILE */
-@media(max-width:768px){
-  .menu-icon{display:block;}
-  .nav-links{display:none;flex-direction:column;width:100%;}
-  .nav-links.active{display:flex;}
+.exec-info h3{
+  margin:0;
+  color:green;
+}
+
+.exec-info button{
+  margin-top:8px;
+  background:green;
+  color:white;
+  border:none;
+  padding:8px 12px;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+@media(max-width:600px){
+  .exec-card{
+    flex-direction:column;
+    text-align:center;
+  }
+
+  .exec-info{
+    text-align:center;
+  }
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  background: orange;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+.footer-links a {
+  display: block;
+  color: white;
+  margin: 5px 0;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.whatsapp {
+  background: green;
+  color: white;
+  padding: 10px;
+  display: inline-block;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.copyright {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+
+  .menu-icon { display: block; }
+
+  .nav-links {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    background: white;
+    margin-top: 10px;
+    padding: 10px 0;
+    border-top: 1px solid #eee;
+  }
+
+  .nav-links.active { display: flex; }
+
+  .nav-links li {
+    text-align: center;
+    padding: 10px 0;
+  }
+
+  .bmi-wrapper {
+    flex-direction: column;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<!-- NAV -->
 <nav class="navbar">
   <div class="menu-icon" onclick="toggleMenu()">☰</div>
   <div class="logo"><img src="logo.png"></div>
@@ -135,11 +297,9 @@ button {
   </ul>
 </nav>
 
-<!-- HOME -->
 <div id="home" class="section active">
-
   <div class="video-container">
-    <video autoplay muted loop>
+    <video autoplay muted loop playsinline>
       <source src="lands.mp4">
     </video>
   </div>
@@ -154,25 +314,84 @@ button {
 
   <div class="section-card">
     <div class="card-header">Latest Announcement</div>
-    <div id="homeAnnouncements"></div>
+    <div class="card-body" id="homeAnnouncements"></div>
   </div>
 
+  <div class="section-card">
+    <div class="card-header">BMI Calculator</div>
+    <div class="card-body">
+      <div class="bmi-wrapper">
+
+        <div class="bmi-inputs">
+          <input type="number" id="weight" placeholder="Weight (kg)">
+          <input type="number" id="height" placeholder="Height (m)">
+          <button onclick="calcBMI()">GO</button>
+
+          <div id="bmiOutput"></div>
+          <div id="advice"></div>
+        </div>
+
+        <div class="bmi-results">
+          <ul>
+            <li id="under">Underweight</li>
+            <li id="normal">Normal</li>
+            <li id="over">Overweight</li>
+            <li id="obese">Obese</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </div>
 </div>
 
-<!-- EVENTS -->
 <div id="events" class="section">
-  <div id="eventsList"></div>
+  <div class="section-card">
+    <div class="card-header">All Events</div>
+    <div class="card-body" id="eventsList"></div>
+  </div>
 </div>
 
-<!-- ANNOUNCEMENTS -->
 <div id="announcements" class="section">
-  <div id="announcementsList"></div>
+  <div class="section-card">
+    <div class="card-header">All Announcements</div>
+    <div class="card-body" id="announcementsList"></div>
+  </div>
 </div>
 
-<!-- CONTACT -->
-<div id="contact" class="section">
-  <div id="execList"></div>
+<div id="about" class="section">
+  <div class="section-card">
+    <div class="card-header">About</div>
+    <div class="card-body">
+      LANDS is a student association focused on nutrition and dietetics.
+    </div>
+  </div>
 </div>
+
+<div id="contact" class="section">
+  <div class="section-card">
+    <div class="card-header">Executive Members</div>
+    <div class="card-body" id="execList"></div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-links">
+    <a onclick="showSection('home')">Home</a>
+    <a onclick="showSection('events')">Events</a>
+    <a onclick="showSection('announcements')">Announcements</a>
+    <a onclick="showSection('about')">About</a>
+    <a onclick="showSection('contact')">Contact</a>
+  </div>
+
+  <div class="whatsapp">
+    WhatsApp: +265 890 277 409
+  </div>
+
+  <div class="copyright">
+    ©️ Luanar Association of Nutrition and Dietetics Students 2025
+  </div>
+</footer>
 
 <script>
 
@@ -181,104 +400,57 @@ function toggleMenu(){
 }
 
 function showSection(id){
-  document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+  document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
   document.getElementById(id).classList.add("active");
+  document.getElementById("navLinks").classList.remove("active");
 }
 
-/* DATA */
-const repoOwner="l-a-n-d-s";
-const repoName="Luanar-Association-of-Nutrition-and-Dietetics-Students---LANDS-";
+const repoOwner = "l-a-n-d-s";
+const repoName = "Luanar-Association-of-Nutrition-and-Dietetics-Students---LANDS-";
 
-/* EXEC DATA */
-const execData=[
-{name:"Promise Chagweruka",position:"President",phone:"265XXXXXXXXX"},
-{name:"Kingsley Vilozyo",position:"Vice President",phone:"265XXXXXXXXX"},
-{name:"Samson Shadrek",position:"Treasurer",phone:"265XXXXXXXXX"},
-{name:"Madalitso Kumilonde",position:"Secretary",phone:"265XXXXXXXXX"},
-{name:"Trinity Zalira",position:"Vice Secretary",phone:"265XXXXXXXXX"},
-{name:"Martin Nyirongo",position:"Fundraising Director",phone:"265XXXXXXXXX"},
-{name:"Memory Motcha",position:"Programs Director",phone:"265XXXXXXXXX"},
-{name:"Yafeti Chidzaye",position:"Director of Publications",phone:"265XXXXXXXXX"},
-{name:"Mathews Kasambo",position:"Logistics Director",phone:"265XXXXXXXXX"}
+/* UPDATED EXEC DATA WITH POSITIONS */
+const execData = [
+  {name:"Promise Chagweruka", position:"President", phone:"265XXXXXXXXX"},
+  {name:"Kingsley Vilozyo", position:"Vice President", phone:"265XXXXXXXXX"},
+  {name:"Samson Shadrek", position:"Treasurer", phone:"265XXXXXXXXX"},
+  {name:"Madalitso Kumilonde", position:"Secretary", phone:"265XXXXXXXXX"},
+  {name:"Trinity Zalira", position:"Vice Secretary", phone:"265XXXXXXXXX"},
+  {name:"Martin Nyirongo", position:"Fundraising Director", phone:"265XXXXXXXXX"},
+  {name:"Memory Motcha", position:"Programs Director", phone:"265XXXXXXXXX"},
+  {name:"Yafeti Chidzaye", position:"Director of Publications", phone:"265XXXXXXXXX"},
+  {name:"Mathews Kasambo", position:"Logistics Director", phone:"265XXXXXXXXX"}
 ];
 
-/* EVENTS */
-async function loadEvents(){
- try{
-  const res=await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/event`);
-  const data=await res.json();
-
-  const images=data.filter(f=>f.name.match(/\.(jpg|png)/i));
-
-  if(images.length){
-    let latest=images[images.length-1];
-    document.getElementById("homeEventImg").src=latest.download_url;
-    document.getElementById("homeEventTitle").innerText=latest.name;
-  }
-
-  let container=document.getElementById("eventsList");
-  container.innerHTML="";
-
-  images.reverse().forEach(f=>{
-    container.innerHTML+=`<img src="${f.download_url}" style="width:100%">`;
-  });
-
- }catch(e){console.log(e);}
-}
-
-/* ANNOUNCEMENTS */
-async function loadAnnouncements(){
- try{
-  const res=await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/announcement`);
-  const data=await res.json();
-
-  const pdfs=data.filter(f=>f.name.endsWith(".pdf"));
-
-  if(pdfs.length){
-    let latest=pdfs[pdfs.length-1];
-    document.getElementById("homeAnnouncements").innerHTML=
-    `<button onclick="window.open('${latest.download_url}')">${latest.name}</button>`;
-  }
-
-  let container=document.getElementById("announcementsList");
-  container.innerHTML="";
-
-  pdfs.reverse().forEach(f=>{
-    container.innerHTML+=`<button onclick="window.open('${f.download_url}')">${f.name}</button>`;
-  });
-
- }catch(e){console.log(e);}
-}
-
-/* EXEC */
 async function loadExec(){
- try{
-  const res=await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/executive`);
-  const data=await res.json();
+  const res = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/executive`);
+  const data = await res.json();
 
-  const images=data.filter(f=>f.name.match(/\.(jpg|png)/i));
+  if(!Array.isArray(data)) return;
 
-  let container=document.getElementById("execList");
-  container.innerHTML="";
+  const images = data.filter(f => /\.(jpg|jpeg|png)$/i.test(f.name));
 
-  images.forEach((img,i)=>{
-    let p=execData[i];
+  let container = document.getElementById("execList");
+  container.innerHTML = "";
 
-    container.innerHTML+=`
-    <div class="exec-card">
-      <img src="${img.download_url}">
-      <div class="exec-info">
-        <h3>${p.name}</h3>
-        <p>${p.position}</p>
-        <button onclick="window.open('https://wa.me/${p.phone}')">WhatsApp</button>
+  images.forEach((img, i) => {
+    let person = execData[i];
+
+    container.innerHTML += `
+      <div class="exec-card">
+        <img src="${img.download_url}">
+        <div class="exec-info">
+          <h3>${person.name}</h3>
+          <p style="margin:4px 0;color:#555;">${person.position}</p>
+          <button onclick="window.open('https://wa.me/${person.phone}','_blank')">
+            WhatsApp
+          </button>
+        </div>
       </div>
-    </div>`;
+    `;
   });
-
- }catch(e){console.log(e);}
 }
 
-/* INIT */
+/* KEEP YOUR OTHER FUNCTIONS SAME */
 loadEvents();
 loadAnnouncements();
 loadExec();
