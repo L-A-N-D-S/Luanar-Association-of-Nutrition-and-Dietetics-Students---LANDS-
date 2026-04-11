@@ -1,1 +1,213 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Us - LANDS</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: white;
+}
+
+/* NAVBAR */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.logo img { height: 50px; }
+
+.nav-links a {
+  color: green;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* PAGE CARD */
+.section-card {
+  width: 95%;
+  max-width: 900px;
+  margin: 25px auto;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  border: 1px solid #eee;
+}
+
+.card-header {
+  background: green;
+  color: white;
+  text-align: center;
+  padding: 12px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.card-body {
+  padding: 15px;
+}
+
+/* EXECUTIVE CARD */
+.exec-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 12px;
+  margin: 10px auto;
+  border-radius: 12px;
+  background: #fafafa;
+  border: 1px solid #eee;
+  max-width: 750px;
+}
+
+/* IMAGE CIRCLE */
+.exec-card img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid green;
+}
+
+/* TEXT SIDE */
+.exec-info {
+  flex: 1;
+  text-align: left;
+}
+
+.exec-info h3 {
+  margin: 0;
+  color: green;
+  font-size: 18px;
+}
+
+.exec-info p {
+  margin: 5px 0;
+  color: #444;
+}
+
+/* WHATSAPP BUTTON */
+.whatsapp-btn {
+  display: inline-block;
+  margin-top: 8px;
+  background: green;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+  .exec-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .exec-info {
+    text-align: center;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav class="navbar">
+  <div class="logo"><img src="logo.png"></div>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+  </div>
+</nav>
+
+<!-- CONTACT -->
+<div class="section-card">
+  <div class="card-header">Contact Executive Members</div>
+  <div class="card-body" id="execContainer"></div>
+</div>
+
+<script>
+
+/* ===== CONFIG ===== */
+const repoOwner = "l-a-n-d-s";
+const repoName = "Luanar-Association-of-Nutrition-and-Dietetics-Students---LANDS-";
+
+/* ===== EXEC DATA (ORDER IMPORTANT) ===== */
+const execData = [
+  {name:"Promise Chagweruka", position:"President", phone:"265890277409"},
+  {name:"Kingsley Vilozyo", position:"Vice President", phone:"265890277409"},
+  {name:"Samson Shadrek", position:"Treasurer", phone:"265890277409"},
+  {name:"Madalitso Kumilonde", position:"Secretary", phone:"265890277409"},
+  {name:"Trinity Zalira", position:"Vice Secretary", phone:"265890277409"},
+  {name:"Martin Nyirongo", position:"Fundraising Director", phone:"265890277409"},
+  {name:"Memory Motcha", position:"Programs Director", phone:"265890277409"},
+  {name:"Yafeti Chidzaye", position:"Director of Publications", phone:"265890277409"},
+  {name:"Mathews Kasambo", position:"Logistics Director", phone:"265890277409"}
+];
+
+/* ===== LOAD EXECUTIVES ===== */
+async function loadExecutives(){
+  try{
+    const res = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/executive`);
+    const data = await res.json();
+
+    if(!Array.isArray(data)) return;
+
+    const images = data
+      .filter(f => /\.(jpg|jpeg|png)$/i.test(f.name))
+      .sort((a,b)=> a.name.localeCompare(b.name));
+
+    const container = document.getElementById("execContainer");
+    container.innerHTML = "";
+
+    images.forEach((img, i) => {
+
+      const person = execData[i] || {
+        name: "Member",
+        position: "Executive",
+        phone: "265890277409"
+      };
+
+      container.innerHTML += `
+        <div class="exec-card">
+
+          <img src="${img.download_url}" alt="Executive">
+
+          <div class="exec-info">
+            <h3>${person.name}</h3>
+            <p>${person.position}</p>
+
+            <a class="whatsapp-btn"
+               href="https://wa.me/${person.phone}"
+               target="_blank">
+              WhatsApp
+            </a>
+          </div>
+
+        </div>
+      `;
+    });
+
+  } catch (err){
+    console.error("Failed to load executives", err);
+  }
+}
+
+/* INIT */
+loadExecutives();
+
+</script>
+
+</body>
+</html>
