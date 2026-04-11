@@ -6,22 +6,32 @@
 <title>LANDS</title>
 
 <style>
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
+  overflow-x: hidden;
 }
 
-/* Navbar */
+/* ===== Navbar ===== */
 .navbar {
   background: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
+  flex-wrap: wrap;
 }
 
-.logo img { height: 50px; }
+.logo img {
+  height: 50px;
+  max-width: 120px;
+}
 
+/* menu icon */
 .menu-icon {
   font-size: 28px;
   cursor: pointer;
@@ -29,10 +39,12 @@ body {
   color: green;
 }
 
+/* nav links */
 .nav-links {
   list-style: none;
   display: flex;
   gap: 20px;
+  align-items: center;
 }
 
 .nav-links a {
@@ -41,40 +53,48 @@ body {
   text-decoration: none;
 }
 
-@media (max-width:768px){
-  .menu-icon { display:block; }
-
-  .nav-links {
-    display:none;
-    flex-direction:column;
-    background:white;
-    width:100%;
-    text-align:center;
-  }
-
-  .nav-links.active { display:flex; }
+/* ===== Video ===== */
+.video-container {
+  width: 100%;
+  padding: 10px;
+  text-align: center;
 }
 
-/* Events */
+.video-container video {
+  width: 100%;
+  max-width: 900px;
+  height: auto;
+  border-radius: 10px;
+}
+
+/* ===== Events ===== */
 .events {
-  text-align:center;
-  padding:30px;
+  text-align: center;
+  padding: 20px;
+}
+
+.events h2 {
+  color: green;
+  font-size: 24px;
 }
 
 .events img {
-  max-width:90%;
-  border-radius:10px;
-  margin-top:10px;
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  border-radius: 10px;
+  margin-top: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
 .event-title {
+  margin-top: 10px;
   font-size: 18px;
   font-weight: bold;
   color: green;
-  margin-top: 10px;
 }
 
-/* Footer */
+/* ===== Footer ===== */
 .footer {
   background: orange;
   color: white;
@@ -86,23 +106,61 @@ body {
   display: block;
   color: white;
   text-decoration: none;
-  margin: 5px 0;
+  margin: 6px 0;
   font-weight: bold;
 }
 
 .whatsapp {
-  background: green;
   display: inline-block;
-  padding: 8px 15px;
+  background: green;
+  padding: 10px 15px;
   margin-top: 10px;
   border-radius: 8px;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+
+  .menu-icon {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    background: white;
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+    padding: 10px 0;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .logo img {
+    height: 40px;
+  }
+
+  .events h2 {
+    font-size: 20px;
+  }
+
+  .event-title {
+    font-size: 16px;
+  }
+
+  .whatsapp {
+    width: 90%;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<!-- Navbar -->
+<!-- ===== Navbar ===== -->
 <nav class="navbar">
   <div class="menu-icon" onclick="toggleMenu()">☰</div>
 
@@ -118,23 +176,24 @@ body {
   </ul>
 </nav>
 
-<!-- Video -->
+<!-- ===== Video ===== -->
 <div class="video-container">
   <video autoplay muted loop playsinline>
     <source src="lands.mp4" type="video/mp4">
   </video>
 </div>
 
-<!-- Events -->
+<!-- ===== Events ===== -->
 <section class="events">
-  <h2 style="color:green;">Upcoming Events</h2>
+  <h2>Upcoming Events</h2>
 
-  <img id="eventImage">
+  <img id="eventImage" alt="Event Image">
   <div class="event-title" id="eventTitle"></div>
 </section>
 
-<!-- Footer -->
+<!-- ===== Footer ===== -->
 <footer class="footer">
+
   <div class="footer-links">
     <a href="Events Us.html">Events</a>
     <a href="Annoucements.html">Annoucements</a>
@@ -170,19 +229,16 @@ fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folder}`
   if(images.length > 0){
     const latest = images[0];
 
-    // show image
     document.getElementById("eventImage").src = latest.download_url;
 
-    // generate title from filename
     let title = latest.name
-      .replace(/\.[^/.]+$/, "")  // remove extension
-      .replace(/[_-]/g, " ");    // replace _ or - with space
+      .replace(/\.[^/.]+$/, "")
+      .replace(/[_-]/g, " ");
 
     document.getElementById("eventTitle").textContent = title;
   }
 
-})
-.catch(err => console.log(err));
+});
 </script>
 
 </body>
