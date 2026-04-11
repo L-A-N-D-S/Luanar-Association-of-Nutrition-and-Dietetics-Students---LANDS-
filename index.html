@@ -28,7 +28,6 @@ body {
 
 .logo img {
   height: 50px;
-  max-width: 120px;
 }
 
 .menu-icon {
@@ -65,27 +64,37 @@ body {
   border-radius: 10px;
 }
 
-/* ===== Sections ===== */
-.section-title {
-  text-align: center;
-  color: green;
-  font-size: 24px;
-  margin-top: 25px;
+/* ===== CARD STYLE (NEW) ===== */
+.section-card {
+  max-width: 900px;
+  margin: 30px auto;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  overflow: hidden;
 }
 
-/* ===== EVENTS ===== */
-.events {
+/* Card header (TITLE INSIDE CARD) */
+.card-header {
+  background: green;
+  color: white;
+  padding: 12px;
+  font-size: 20px;
+  font-weight: bold;
   text-align: center;
+}
+
+/* Card body */
+.card-body {
   padding: 20px;
+  text-align: center;
 }
 
+/* ===== EVENTS IMAGE ===== */
 .events img {
   width: 100%;
   max-width: 600px;
-  height: auto;
   border-radius: 10px;
-  margin-top: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
 .event-title {
@@ -96,11 +105,6 @@ body {
 }
 
 /* ===== ANNOUNCEMENTS ===== */
-.announcements {
-  padding: 20px;
-  text-align: center;
-}
-
 .announcement-card {
   background: #f5f5f5;
   margin: 10px auto;
@@ -183,10 +187,6 @@ body {
   .logo img {
     height: 40px;
   }
-
-  .event-title {
-    font-size: 16px;
-  }
 }
 </style>
 </head>
@@ -216,18 +216,29 @@ body {
   </video>
 </div>
 
-<!-- ===== EVENTS ===== -->
-<h2 class="section-title">Upcoming Events</h2>
+<!-- ===== EVENTS CARD ===== -->
+<div class="section-card">
 
-<section class="events">
-  <img id="eventImage" alt="Event Image">
-  <div class="event-title" id="eventTitle"></div>
-</section>
+  <div class="card-header">
+    Upcoming Events
+  </div>
 
-<!-- ===== ANNOUNCEMENTS ===== -->
-<h2 class="section-title">Announcements</h2>
+  <div class="card-body events">
+    <img id="eventImage">
+    <div class="event-title" id="eventTitle"></div>
+  </div>
+</div>
 
-<section class="announcements" id="announcementList"></section>
+<!-- ===== ANNOUNCEMENTS CARD ===== -->
+<div class="section-card">
+
+  <div class="card-header">
+    Announcements
+  </div>
+
+  <div class="card-body" id="announcementList"></div>
+
+</div>
 
 <iframe id="pdfViewer"></iframe>
 
@@ -262,9 +273,7 @@ fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${eventFol
 .then(res => res.json())
 .then(data => {
 
-  const images = data.filter(f =>
-    f.name.match(/\.(jpg|jpeg|png)$/i)
-  );
+  const images = data.filter(f => f.name.match(/\.(jpg|jpeg|png)$/i));
 
   if(images.length > 0){
     const latest = images[0];
@@ -279,7 +288,7 @@ fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${eventFol
   }
 });
 
-/* ===== ANNOUNCEMENTS (PDF ONLY) ===== */
+/* ===== ANNOUNCEMENTS ===== */
 const announcementFolder = "announcement";
 
 fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${announcementFolder}`)
@@ -317,4 +326,4 @@ function openPDF(url){
 </script>
 
 </body>
-</html>
+                                                 </html>
