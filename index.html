@@ -1,425 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta property="og:title" content="Lands Website">
-<meta property="og:description" content="Explore Lands Website">
-<meta property="og:image" content="https://yafeti.github.io/Lands-website-/image.jpg">
-<meta property="og:url" content="https://yafeti.github.io/Lands-website-/">
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-510737776"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-510737776');
-  </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LANDS</title>
 
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Luanar Association Of Nutrition and Dietetics Students</title>
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-    }
+/* ===== Navbar ===== */
+.navbar {
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
 
-    /* ===== Navbar ===== */
-    .navbar {
-      background-color: orange;
-      color: white;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 20px;
-      flex-wrap: wrap;
-    }
+.logo img {
+  height: 50px;
+}
 
-    .logo-text {
-      font-size: 1.5em;
-      font-weight: bold;
-    }
+.menu-icon {
+  font-size: 28px;
+  cursor: pointer;
+  display: none;
+  color: green;
+}
 
-    .logo-img {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
 
-    .nav-links {
-      list-style: none;
-      display: flex;
-      gap: 20px;
-    }
+.nav-links a {
+  color: green;
+  text-decoration: none;
+  font-weight: bold;
+}
 
-    .nav-links a {
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-    }
+@media (max-width:768px){
+  .menu-icon { display:block; }
 
-    .menu-icon {
-      font-size: 28px;
-      cursor: pointer;
-      display: none;
-    }
+  .nav-links {
+    display:none;
+    flex-direction:column;
+    background:white;
+    width:100%;
+    text-align:center;
+  }
 
-    @media (max-width: 768px) {
-      .menu-icon {
-        display: block;
-      }
+  .nav-links.active { display:flex; }
+}
 
-      .nav-links {
-        display: none;
-        flex-direction: column;
-        background-color: orange;
-        width: 100%;
-        text-align: center;
-        margin-top: 10px;
-      }
+/* ===== Video ===== */
+.video-container {
+  text-align:center;
+  padding:20px;
+}
 
-      .nav-links.active {
-        display: flex;
-      }
+.video-container video {
+  max-width:100%;
+  height:auto;
+}
 
-      .nav-links li {
-        padding: 10px 0;
-      }
+/* ===== Events Section ===== */
+.events {
+  text-align: center;
+  padding: 30px;
+}
 
-      .logo-img {
-        width: 50px;
-        height: 50px;
-      }
-    }
+.events h2 {
+  color: green;
+}
 
-    /* ===== Subpage Links ===== */
-    .subpage-links {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      padding: 15px;
-      background-color: #fff5e6;
-    }
+.events img {
+  max-width: 90%;
+  border-radius: 10px;
+  margin-top: 15px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
 
-    .subpage-links a {
-      background-color: green;
-      color: white;
-      text-decoration: none;
-      padding: 10px 15px;
-      border-radius: 8px;
-      font-weight: bold;
-      transition: 0.3s;
-    }
-
-    .subpage-links a:hover {
-      background-color: darkgreen;
-    }
-
-    /* ===== Content ===== */
-    .content {
-      text-align: center;
-      padding: 20px;
-    }
-
-    .image-gallery {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 15px;
-      margin-top: 20px;
-    }
-
-    .image-gallery img {
-      width: 100%;
-      max-width: 300px;
-      height: auto;
-      object-fit: cover;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    /* ===== Footer ===== */
-    .footer {
-      background: #222;
-      color: #fff;
-      text-align: center;
-      padding: 25px 10px;
-      margin-top: 40px;
-      font-size: 1em;
-    }
-
-    .footer a {
-      color: #bfffa3;
-      text-decoration: none;
-      margin: 0 10px;
-      font-weight: bold;
-    }
-
-    .footer a:hover {
-      text-decoration: underline;
-    }
-
-    .footer-icons {
-      margin-top: 10px;
-    }
-
-    .footer-icons a {
-      display: inline-block;
-      margin: 0 8px;
-      font-size: 18px;
-      color: #bfffa3;
-      text-decoration: none;
-    }
-
-    .footer-icons a:hover {
-      color: orange;
-    }
-
-    /* ===== Hero Slider ===== */
-    .hero-slider {
-      position: relative;
-      max-width: 100%;
-      width: 100%;
-      margin: 0 auto;
-      overflow: hidden;
-      height: 70vh;
-      border-radius: 0;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    }
-
-    .slides-container {
-      overflow: hidden;
-      width: 100%;
-      height: 100%;
-    }
-
-    .slides {
-      display: flex;
-      transition: transform 1s ease-in-out;
-      height: 100%;
-    }
-
-    .slides img {
-      width: 100%;
-      flex-shrink: 0;
-      object-fit: cover;
-      height: 100%;
-    }
-
-    .slider-dots {
-      position: absolute;
-      bottom: 15px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 3;
-      text-align: center;
-    }
-
-    .slider-dots .dot {
-      height: 12px;
-      width: 12px;
-      margin: 0 5px;
-      display: inline-block;
-      background-color: #bbb;
-      border-radius: 50%;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    .slider-dots .dot.active {
-      background-color: orange;
-    }
-
-    /* ===== BMI Calculator ===== */
-    #bmi-calculator input, #bmi-calculator button {
-      width: 100%;
-      max-width: 300px;
-      padding: 10px;
-      margin: 8px 0;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-
-    #bmi-calculator button {
-      background: #43a047;
-      color: white;
-      border: none;
-      font-weight: bold;
-      cursor: pointer;
-    }
-  </style>
+/* ===== Footer ===== */
+.footer {
+  background: orange;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+</style>
 </head>
+
 <body>
 
-  <!-- ===== Navbar ===== -->
-  <nav class="navbar">
-    <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
-    <div class="logo-text">LANDS</div>
-    <img src="BackgroundEraser_20251031_115242659.png" alt="LANDS Logo" class="logo-img">
-    <img src="BackgroundEraser_20251031_120538214.png" alt="Luanar logo" class="logo-img">
-    <ul class="nav-links" id="navLinks">
-      <li><a href="Events Us.html">Events</a></li>
-      <li><a href="About Us.html">About Us</a></li>
-      <li><a href="Contact Us.html">Contact Us</a></li>
-    </ul>
-  </nav>
+<!-- ===== Navbar ===== -->
+<nav class="navbar">
+  <div class="menu-icon" onclick="toggleMenu()">☰</div>
 
-  <!-- ===== Subpage Links ===== -->
-  <section class="subpage-links">
-    <a href="face.html">Face of Association</a>
-    <a href="Blog.html">Nutrition Blog</a>
-    <a href="voice.html">Voice of LANDS</a>
-    <a href="myths.html">Myth Buster</a>
-    <a href="Images.html">Image Gallery</a>
-    <a href="videos.html">Video Gallery</a>
-    <a href="magazine.html">Magazine</a>
-    <a href="Recipe.html">Recipe</a>
-  </section>
-
-  <div class="content">
-    <h2>Welcome to LANDS</h2>
-    <p>Explore our latest updates, magazines, and events!</p>
-
-  <!-- ===== Image Slider ===== -->
-  <section class="image-slider">
-    <div class="slides-container">
-      <div class="slides">
-        <img src="lands1.jpg" alt="Slide 1">
-        <img src="diets.jpg" alt="Slide 2">
-        <img src="IMG-20250918-WA0035.jpg" alt="Slide 3">
-        <img src="21.jpg" alt="Slide 4">
-        <img src="llands.jpg" alt="Slide 4">
-      </div>
-    </div>
-   <!-- <div class="slider-dots">
-      <span class="dot" onclick="goToSlide(0)"></span>
-      <span class="dot" onclick="goToSlide(1)"></span>
-      <span class="dot" onclick="goToSlide(2)"></span>
-      <span class="dot" onclick="goToSlide(3)"></span>
-      <span class="dot" onclick="goToSlide(3)"></span>
- 
-    </div>
-  </section>-->
-
-  <!-- ===== Story ===== -->
-  <div class="nutrition-story" style="border:1px solid #ccc; padding:15px; margin:20px 0; background-color:#fdfdfd; border-radius:8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-    <img src="malawi_child_nutrition.jpg" alt="Child Nutrition in Malawi" style="width:100%; max-height:250px; object-fit:cover; border-radius:8px; margin-bottom:15px;">
-    <h2 style="color:#d9534f;">National Nutrition Alert: Child Malnutrition in Malawi</h2>
-    <p style="font-size:16px; line-height:1.5; color:#333;">
-      According to recent data, about <strong>38 % of children under age 5 in Malawi are stunted</strong>.
-      The government has launched a <strong>National Multisector Nutrition Policy & Strategic Plan 2025–2030</strong>.
-    </p>
-    <div id="story-full" style="max-height:0; overflow:hidden; transition:max-height 0.5s ease;">
-      This plan recognizes malnutrition as linked to agriculture, education, gender, and food systems.
-      The economic cost is estimated at <strong>US$ 600 million annually</strong>.
-    </div>
-    <button id="readMoreBtn" style="padding:10px 20px; background-color:#d9534f; color:#fff; border:none; border-radius:5px; cursor:pointer; margin-top:10px;">
-      Read More
-    </button>
+  <div class="logo">
+    <img src="logo.png">
   </div>
 
-  <!-- ===== BMI Calculator ===== -->
-  <section id="bmi-calculator">
-    <h2 style="color:#2e7d32;">BMI Calculator</h2>
-    <p style="color:#555;font-size:14px;">Check your Body Mass Index</p>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="Events Us.html">Events</a></li>
+    <li><a href="Annoucements.html">Annoucements</a></li>
+    <li><a href="About Us.html">About Us</a></li>
+    <li><a href="Contact Us.html">Contact Us</a></li>
+  </ul>
+</nav>
 
-    <input type="number" id="weight" placeholder="Weight (kg)">
-    <input type="number" id="height" placeholder="Height (m)">
-    <button onclick="calcBMI()">Calculate</button>
-    <p id="bmi-result" style="margin-top:10px;font-weight:bold;color:#2e7d32;"></p>
-  </section>
+<!-- ===== Video ===== -->
+<div class="video-container">
+  <video autoplay muted loop playsinline>
+    <source src="lands.mp4" type="video/mp4">
+  </video>
+</div>
 
-  <!-- ===== Footer ===== -->
-  <footer class="footer">
-    <div>
-      <a href="about.html">About Us</a> |
-      <a href="contact.html">Contact</a> |
-      <a href="mailto:emmanuelkamtima4@gmail.com">Email Us</a>
-    </div>
-    <div class="footer-icons">
-      <a href="https://facebook.com" target="_blank">Facebook</a>
-      <a href="https://wa.me/265990156738" target="_blank">WhatsApp: +265 (0) 990 15 67 38</a>
-      <a href="mailto:yafetichidzaye@gmail.com">yafetichidzaye@gmail.com</a>
-      <a href="mailto:emmanuelkamtima4@gmail.com">emmanuelkamtima4@gmail.com</a>
-    </div>
-    <br>&copy; 2025 LANDS Association. All rights reserved.
-  </footer>
+<!-- ===== Upcoming Events ===== -->
+<section class="events">
+  <h2>Upcoming Events</h2>
+  <img id="eventImage" alt="Latest Event">
+</section>
 
-  <script>
-    /* ===== Navbar Toggle ===== */
-    function toggleMenu() {
-      document.getElementById("navLinks").classList.toggle("active");
-    }
+<!-- ===== Footer ===== -->
+<footer class="footer">
+  <p>&copy; 2025 LANDS Association</p>
+</footer>
 
-    /* ===== BMI Calculator ===== */
-    function calcBMI() {
-      const w = parseFloat(document.getElementById('weight').value);
-      const h = parseFloat(document.getElementById('height').value);
-      const result = document.getElementById('bmi-result');
+<script>
+function toggleMenu(){
+  document.getElementById("navLinks").classList.toggle("active");
+}
 
-      if (!w || !h) {
-        result.style.color = "red";
-        result.textContent = "Please enter both weight and height.";
-        return;
-      }
+/* ===== GitHub API ===== */
+const repoOwner = "l-a-n-d-s";
+const repoName = "Luanar-Association-of-Nutrition-and-Dietetics-Students---LANDS-";
+const folder = "events";
 
-      const bmi = (w / (h * h)).toFixed(2);
-      let status = "";
+fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folder}`)
+.then(res => res.json())
+.then(data => {
+  // filter only images
+  const images = data.filter(file =>
+    file.name.endsWith(".jpg") ||
+    file.name.endsWith(".png") ||
+    file.name.endsWith(".jpeg")
+  );
 
-      if (bmi < 18.5) status = "Underweight";
-      else if (bmi < 24.9) status = "Normal weight";
-      else if (bmi < 29.9) status = "Overweight";
-      else status = "Obese";
+  if(images.length > 0){
+    const latest = images[images.length - 1];
+    document.getElementById("eventImage").src = latest.download_url;
+  }
+})
+.catch(err => console.error("Error:", err));
+</script>
 
-      result.style.color = "#2e7d32";
-      result.textContent = `Your BMI is ${bmi} (${status})`;
-    }
-
-    /* ===== Read More Toggle ===== */
-    const btn = document.getElementById('readMoreBtn');
-    const fullStory = document.getElementById('story-full');
-    btn.addEventListener('click', () => {
-      if(fullStory.style.maxHeight === "0px" || fullStory.style.maxHeight === "") {
-        fullStory.style.maxHeight = fullStory.scrollHeight + "px";
-        btn.textContent = "Read Less";
-      } else {
-        fullStory.style.maxHeight = "0";
-        btn.textContent = "Read More";
-      }
-    });
-
-    /* ===== Slider ===== */
-    let slideIndex = 0;
-    const slides = document.querySelectorAll('.slides img');
-    const slidesContainer = document.querySelector('.slides');
-    const dots = document.querySelectorAll('.slider-dots .dot');
-
-    function showSlide(index) {
-      const offset = -index * 100;
-      slidesContainer.style.transform = `translateX(${offset}%)`;
-      dots.forEach(dot => dot.classList.remove('active'));
-      dots[index].classList.add('active');
-    }
-
-    function nextSlide() {
-      slideIndex++;
-      if(slideIndex >= slides.length) slideIndex = 0;
-      showSlide(slideIndex);
-    }
-
-    function goToSlide(index) {
-      slideIndex = index;
-      showSlide(slideIndex);
-    }
-
-    setInterval(nextSlide, 4000);
-    showSlide(slideIndex);
-  </script>
 </body>
-      </html>
-
-
-
-
+</html>
