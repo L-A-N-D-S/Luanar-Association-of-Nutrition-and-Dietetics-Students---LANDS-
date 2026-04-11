@@ -14,7 +14,6 @@ body {
   background: white;
 }
 
-/* CARD */
 .section-card {
   width: 95%;
   max-width: 900px;
@@ -37,7 +36,6 @@ body {
   padding: 15px;
 }
 
-/* EXEC CARD */
 .exec-card {
   display: flex;
   align-items: center;
@@ -50,7 +48,6 @@ body {
   max-width: 750px;
 }
 
-/* IMAGE */
 .exec-card img {
   width: 90px;
   height: 90px;
@@ -59,7 +56,6 @@ body {
   border: 3px solid green;
 }
 
-/* TEXT */
 .exec-info {
   flex: 1;
 }
@@ -74,7 +70,6 @@ body {
   color: #444;
 }
 
-/* WHATSAPP */
 .whatsapp-btn {
   display: inline-block;
   margin-top: 8px;
@@ -86,7 +81,6 @@ body {
   font-weight: bold;
 }
 
-/* RESPONSIVE */
 @media(max-width:600px){
   .exec-card {
     flex-direction: column;
@@ -108,52 +102,58 @@ body {
 const repoOwner = "l-a-n-d-s";
 const repoName = "Luanar-Association-of-Nutrition-and-Dietetics-Students---LANDS-";
 
-/* 🔥 POSITION MAP (BASED ON FILE NAMES) */
+/* ==============================
+   📱 PHONE NUMBERS (UPDATED)
+============================== */
+const phoneBook = {
+  president: "265986456099",
+  vice_president: "265886492747",
+  treasurer: "2658992918979",
+  secretary: "2658888063559",
+  vice_secretary: "265997950685",
+  fundraising_director: "265985701696",
+  programs_director: "265886301850",
+  publications_director: "265890277409",
+  logistics_director: "265885542244"
+};
+
+/* EXECUTIVES DATA */
 const execMap = {
-  "president": {
+  president: {
     name: "Promise Chagweruka",
-    position: "President",
-    phone: "265XXXXXXXX1"
+    position: "President"
   },
-  "vice_president": {
+  vice_president: {
     name: "Kingsley Vilozyo",
-    position: "Vice President",
-    phone: "265XXXXXXXX2"
+    position: "Vice President"
   },
-  "treasurer": {
+  treasurer: {
     name: "Samson Shadrek",
-    position: "Treasurer",
-    phone: "265XXXXXXXX3"
+    position: "Treasurer"
   },
-  "secretary": {
+  secretary: {
     name: "Madalitso Kumilonde",
-    position: "Secretary",
-    phone: "265XXXXXXXX4"
+    position: "Secretary"
   },
-  "vice_secretary": {
+  vice_secretary: {
     name: "Trinity Zalira",
-    position: "Vice Secretary",
-    phone: "265XXXXXXXX5"
+    position: "Vice Secretary"
   },
-  "fundraising_director": {
+  fundraising_director: {
     name: "Martin Nyirongo",
-    position: "Fundraising Director",
-    phone: "265XXXXXXXX6"
+    position: "Fundraising Director"
   },
-  "programs_director": {
+  programs_director: {
     name: "Memory Motcha",
-    position: "Programs Director",
-    phone: "265XXXXXXXX7"
+    position: "Programs Director"
   },
-  "publications_director": {
+  publications_director: {
     name: "Yafeti Chidzaye",
-    position: "Director of Publications",
-    phone: "265XXXXXXXX8"
+    position: "Director of Publications"
   },
-  "logistics_director": {
+  logistics_director: {
     name: "Mathews Kasambo",
-    position: "Logistics Director",
-    phone: "265XXXXXXXX9"
+    position: "Logistics Director"
   }
 };
 
@@ -175,6 +175,7 @@ async function loadExecutives(){
         .replace(/\.(jpg|jpeg|png)$/,"");
 
       const person = execMap[key];
+      const phone = phoneBook[key];
 
       if(!person) return;
 
@@ -188,7 +189,7 @@ async function loadExecutives(){
             <p>${person.position}</p>
 
             <a class="whatsapp-btn"
-               href="https://wa.me/${person.phone}"
+               href="https://wa.me/${phone}"
                target="_blank">
               WhatsApp
             </a>
