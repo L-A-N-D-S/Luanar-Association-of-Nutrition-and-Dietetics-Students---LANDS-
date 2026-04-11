@@ -14,6 +14,7 @@ body {
   background: white;
 }
 
+/* CARD */
 .section-card {
   width: 95%;
   max-width: 900px;
@@ -36,6 +37,7 @@ body {
   padding: 15px;
 }
 
+/* EXEC CARD */
 .exec-card {
   display: flex;
   align-items: center;
@@ -48,6 +50,7 @@ body {
   max-width: 750px;
 }
 
+/* IMAGE */
 .exec-card img {
   width: 90px;
   height: 90px;
@@ -56,6 +59,7 @@ body {
   border: 3px solid green;
 }
 
+/* TEXT */
 .exec-info {
   flex: 1;
 }
@@ -70,6 +74,7 @@ body {
   color: #444;
 }
 
+/* WHATSAPP BUTTON */
 .whatsapp-btn {
   display: inline-block;
   margin-top: 8px;
@@ -102,14 +107,14 @@ body {
 const repoOwner = "l-a-n-d-s";
 const repoName = "Luanar-Association-of-Nutrition-and-Dietetics-Students---LANDS-";
 
-/* ==============================
-   📱 PHONE NUMBERS (UPDATED)
-============================== */
+/* =========================
+   📱 PHONE BOOK (CLEAN)
+========================= */
 const phoneBook = {
   president: "265986456099",
   vice_president: "265886492747",
-  treasurer: "2658992918979",
-  secretary: "2658888063559",
+  treasurer: "265992918979",
+  secretary: "265888063559",
   vice_secretary: "265997950685",
   fundraising_director: "265985701696",
   programs_director: "265886301850",
@@ -117,7 +122,7 @@ const phoneBook = {
   logistics_director: "265885542244"
 };
 
-/* EXECUTIVES DATA */
+/* EXECUTIVES */
 const execMap = {
   president: {
     name: "Promise Chagweruka",
@@ -177,7 +182,7 @@ async function loadExecutives(){
       const person = execMap[key];
       const phone = phoneBook[key];
 
-      if(!person) return;
+      if(!person || !phone) return;
 
       container.innerHTML += `
         <div class="exec-card">
@@ -189,7 +194,7 @@ async function loadExecutives(){
             <p>${person.position}</p>
 
             <a class="whatsapp-btn"
-               href="https://wa.me/${phone}"
+               href="https://wa.me/${String(phone).replace(/\\D/g,'')}"
                target="_blank">
               WhatsApp
             </a>
