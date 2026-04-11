@@ -31,7 +31,6 @@ body {
   max-width: 120px;
 }
 
-/* menu icon */
 .menu-icon {
   font-size: 28px;
   cursor: pointer;
@@ -39,7 +38,6 @@ body {
   color: green;
 }
 
-/* nav links */
 .nav-links {
   list-style: none;
   display: flex;
@@ -67,15 +65,18 @@ body {
   border-radius: 10px;
 }
 
-/* ===== Events ===== */
+/* ===== Sections ===== */
+.section-title {
+  text-align: center;
+  color: green;
+  font-size: 24px;
+  margin-top: 25px;
+}
+
+/* ===== EVENTS ===== */
 .events {
   text-align: center;
   padding: 20px;
-}
-
-.events h2 {
-  color: green;
-  font-size: 24px;
 }
 
 .events img {
@@ -92,6 +93,46 @@ body {
   font-size: 18px;
   font-weight: bold;
   color: green;
+}
+
+/* ===== ANNOUNCEMENTS ===== */
+.announcements {
+  padding: 20px;
+  text-align: center;
+}
+
+.announcement-card {
+  background: #f5f5f5;
+  margin: 10px auto;
+  padding: 15px;
+  border-radius: 10px;
+  max-width: 600px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.announcement-card h3 {
+  margin: 0;
+  font-size: 16px;
+  color: green;
+}
+
+.announcement-card button {
+  margin-top: 10px;
+  background: green;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* PDF viewer */
+#pdfViewer {
+  width: 90%;
+  height: 500px;
+  border: none;
+  margin: 20px auto;
+  display: none;
 }
 
 /* ===== Footer ===== */
@@ -118,7 +159,7 @@ body {
   border-radius: 8px;
 }
 
-/* ===== RESPONSIVE DESIGN ===== */
+/* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
 
   .menu-icon {
@@ -143,16 +184,8 @@ body {
     height: 40px;
   }
 
-  .events h2 {
-    font-size: 20px;
-  }
-
   .event-title {
     font-size: 16px;
-  }
-
-  .whatsapp {
-    width: 90%;
   }
 }
 </style>
@@ -160,7 +193,7 @@ body {
 
 <body>
 
-<!-- ===== Navbar ===== -->
+<!-- ===== NAVBAR ===== -->
 <nav class="navbar">
   <div class="menu-icon" onclick="toggleMenu()">☰</div>
 
@@ -170,33 +203,40 @@ body {
 
   <ul class="nav-links" id="navLinks">
     <li><a href="Events Us.html">Events</a></li>
-    <li><a href="Annoucements.html">Annoucements</a></li>
+    <li><a href="Annoucements.html">Announcements</a></li>
     <li><a href="About Us.html">About Us</a></li>
     <li><a href="Contact Us.html">Contact Us</a></li>
   </ul>
 </nav>
 
-<!-- ===== Video ===== -->
+<!-- ===== VIDEO ===== -->
 <div class="video-container">
   <video autoplay muted loop playsinline>
     <source src="lands.mp4" type="video/mp4">
   </video>
 </div>
 
-<!-- ===== Events ===== -->
-<section class="events">
-  <h2>Upcoming Events</h2>
+<!-- ===== EVENTS ===== -->
+<h2 class="section-title">Upcoming Events</h2>
 
+<section class="events">
   <img id="eventImage" alt="Event Image">
   <div class="event-title" id="eventTitle"></div>
 </section>
 
-<!-- ===== Footer ===== -->
+<!-- ===== ANNOUNCEMENTS ===== -->
+<h2 class="section-title">Announcements</h2>
+
+<section class="announcements" id="announcementList"></section>
+
+<iframe id="pdfViewer"></iframe>
+
+<!-- ===== FOOTER ===== -->
 <footer class="footer">
 
   <div class="footer-links">
     <a href="Events Us.html">Events</a>
-    <a href="Annoucements.html">Annoucements</a>
+    <a href="Annoucements.html">Announcements</a>
     <a href="About Us.html">About Us</a>
     <a href="Contact Us.html">Contact Us</a>
   </div>
@@ -213,17 +253,17 @@ function toggleMenu(){
   document.getElementById("navLinks").classList.toggle("active");
 }
 
-/* ===== GitHub API ===== */
+/* ===== EVENTS ===== */
 const repoOwner = "l-a-n-d-s";
 const repoName = "Luanar-Association-of-Nutrition-and-Dietetics-Students---LANDS-";
-const folder = "event";
+const eventFolder = "event";
 
-fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folder}`)
+fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${eventFolder}`)
 .then(res => res.json())
 .then(data => {
 
-  const images = data.filter(file =>
-    file.name.match(/\.(jpg|jpeg|png)$/i)
+  const images = data.filter(f =>
+    f.name.match(/\.(jpg|jpeg|png)$/i)
   );
 
   if(images.length > 0){
@@ -237,8 +277,43 @@ fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folder}`
 
     document.getElementById("eventTitle").textContent = title;
   }
-
 });
+
+/* ===== ANNOUNCEMENTS (PDF ONLY) ===== */
+const announcementFolder = "announcement";
+
+fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${announcementFolder}`)
+.then(res => res.json())
+.then(data => {
+
+  const pdfs = data.filter(f => f.name.endsWith(".pdf"));
+
+  const container = document.getElementById("announcementList");
+
+  pdfs.forEach(file => {
+
+    let title = file.name
+      .replace(".pdf", "")
+      .replace(/[_-]/g, " ");
+
+    let card = document.createElement("div");
+    card.className = "announcement-card";
+
+    card.innerHTML = `
+      <h3>${title}</h3>
+      <button onclick="openPDF('${file.download_url}')">View PDF</button>
+    `;
+
+    container.appendChild(card);
+  });
+});
+
+/* ===== PDF VIEWER ===== */
+function openPDF(url){
+  const viewer = document.getElementById("pdfViewer");
+  viewer.style.display = "block";
+  viewer.src = url;
+}
 </script>
 
 </body>
