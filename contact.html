@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,24 +14,7 @@ body {
   background: white;
 }
 
-/* NAVBAR */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-  border-bottom: 1px solid #eee;
-}
-
-.logo img { height: 50px; }
-
-.nav-links a {
-  color: green;
-  font-weight: bold;
-  text-decoration: none;
-}
-
-/* PAGE CARD */
+/* CARD */
 .section-card {
   width: 95%;
   max-width: 900px;
@@ -55,21 +37,20 @@ body {
   padding: 15px;
 }
 
-/* EXECUTIVE CARD */
+/* EXEC CARD */
 .exec-card {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 15px;
-  padding: 12px;
   margin: 10px auto;
+  padding: 12px;
   border-radius: 12px;
   background: #fafafa;
   border: 1px solid #eee;
   max-width: 750px;
 }
 
-/* IMAGE CIRCLE */
+/* IMAGE */
 .exec-card img {
   width: 90px;
   height: 90px;
@@ -78,16 +59,14 @@ body {
   border: 3px solid green;
 }
 
-/* TEXT SIDE */
+/* TEXT */
 .exec-info {
   flex: 1;
-  text-align: left;
 }
 
 .exec-info h3 {
   margin: 0;
   color: green;
-  font-size: 18px;
 }
 
 .exec-info p {
@@ -95,7 +74,7 @@ body {
   color: #444;
 }
 
-/* WHATSAPP BUTTON */
+/* WHATSAPP */
 .whatsapp-btn {
   display: inline-block;
   margin-top: 8px;
@@ -113,50 +92,72 @@ body {
     flex-direction: column;
     text-align: center;
   }
-
-  .exec-info {
-    text-align: center;
-  }
 }
 </style>
 </head>
 
 <body>
 
-<!-- NAV -->
-<nav class="navbar">
-  <div class="logo"><img src="logo.png"></div>
-  <div class="nav-links">
-    <a href="index.html">Home</a>
-  </div>
-</nav>
-
-<!-- CONTACT -->
 <div class="section-card">
-  <div class="card-header">Contact Executive Members</div>
+  <div class="card-header">Executive Members</div>
   <div class="card-body" id="execContainer"></div>
 </div>
 
 <script>
 
-/* ===== CONFIG ===== */
 const repoOwner = "l-a-n-d-s";
 const repoName = "Luanar-Association-of-Nutrition-and-Dietetics-Students---LANDS-";
 
-/* ===== EXEC DATA (ORDER IMPORTANT) ===== */
-const execData = [
-  {name:"Promise Chagweruka", position:"President", phone:"265890277409"},
-  {name:"Kingsley Vilozyo", position:"Vice President", phone:"265890277409"},
-  {name:"Samson Shadrek", position:"Treasurer", phone:"265890277409"},
-  {name:"Trinity Zalira", position:"Vice Secretary", phone:"265890277409"},
-  {name:"Madalitso Kumilonde", position:"Secretary", phone:"265890277409"},
-  {name:"Martin Nyirongo", position:"Fundraising Director", phone:"265890277409"},
-  {name:"Memory Motcha", position:"Programs Director", phone:"265890277409"},
-  {name:"Yafeti Chidzaye", position:"Director of Publications", phone:"265890277409"},
-  {name:"Mathews Kasambo", position:"Logistics Director", phone:"265890277409"}
-];
+/* 🔥 POSITION MAP (BASED ON FILE NAMES) */
+const execMap = {
+  "president": {
+    name: "Promise Chagweruka",
+    position: "President",
+    phone: "265XXXXXXXX1"
+  },
+  "vice_president": {
+    name: "Kingsley Vilozyo",
+    position: "Vice President",
+    phone: "265XXXXXXXX2"
+  },
+  "treasurer": {
+    name: "Samson Shadrek",
+    position: "Treasurer",
+    phone: "265XXXXXXXX3"
+  },
+  "secretary": {
+    name: "Madalitso Kumilonde",
+    position: "Secretary",
+    phone: "265XXXXXXXX4"
+  },
+  "vice_secretary": {
+    name: "Trinity Zalira",
+    position: "Vice Secretary",
+    phone: "265XXXXXXXX5"
+  },
+  "fundraising_director": {
+    name: "Martin Nyirongo",
+    position: "Fundraising Director",
+    phone: "265XXXXXXXX6"
+  },
+  "programs_director": {
+    name: "Memory Motcha",
+    position: "Programs Director",
+    phone: "265XXXXXXXX7"
+  },
+  "publications_director": {
+    name: "Yafeti Chidzaye",
+    position: "Director of Publications",
+    phone: "265XXXXXXXX8"
+  },
+  "logistics_director": {
+    name: "Mathews Kasambo",
+    position: "Logistics Director",
+    phone: "265XXXXXXXX9"
+  }
+};
 
-/* ===== LOAD EXECUTIVES ===== */
+/* LOAD EXECUTIVES */
 async function loadExecutives(){
   try{
     const res = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/executive`);
@@ -164,25 +165,23 @@ async function loadExecutives(){
 
     if(!Array.isArray(data)) return;
 
-    const images = data
-      .filter(f => /\.(jpg|jpeg|png)$/i.test(f.name))
-      .sort((a,b)=> a.name.localeCompare(b.name));
-
     const container = document.getElementById("execContainer");
     container.innerHTML = "";
 
-    images.forEach((img, i) => {
+    data.forEach(file => {
 
-      const person = execData[i] || {
-        name: "Member",
-        position: "Executive",
-        phone: "265890277409"
-      };
+      const key = file.name
+        .toLowerCase()
+        .replace(/\.(jpg|jpeg|png)$/,"");
+
+      const person = execMap[key];
+
+      if(!person) return;
 
       container.innerHTML += `
         <div class="exec-card">
 
-          <img src="${img.download_url}" alt="Executive">
+          <img src="${file.download_url}" alt="${person.name}">
 
           <div class="exec-info">
             <h3>${person.name}</h3>
@@ -199,12 +198,11 @@ async function loadExecutives(){
       `;
     });
 
-  } catch (err){
-    console.error("Failed to load executives", err);
+  }catch(err){
+    console.error("Error loading executives:", err);
   }
 }
 
-/* INIT */
 loadExecutives();
 
 </script>
