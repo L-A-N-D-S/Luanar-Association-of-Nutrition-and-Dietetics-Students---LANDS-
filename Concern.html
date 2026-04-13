@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact & Support - LANDS</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: white;
+}
+
+/* CARD */
+.section-card {
+  width: 95%;
+  max-width: 900px;
+  margin: 25px auto;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  border: 1px solid #eee;
+}
+
+.card-header {
+  background: green;
+  color: white;
+  text-align: center;
+  padding: 12px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.card-body {
+  padding: 15px;
+}
+
+/* FORM */
+.form-group {
+  margin: 12px 0;
+}
+
+.form-group label {
+  font-weight: bold;
+  color: green;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-top: 5px;
+}
+
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* BUTTON */
+.whatsapp-btn {
+  width: 100%;
+  padding: 12px;
+  background: green;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  margin-top: 15px;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="section-card">
+  <div class="card-header">Contact & Support</div>
+
+  <div class="card-body">
+
+    <div class="form-group">
+      <label>Full Name</label>
+      <input type="text" id="name" placeholder="Enter your name">
+    </div>
+
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="email" placeholder="Enter your email">
+    </div>
+
+    <div class="form-group">
+      <label>Semester</label>
+      <input type="text" id="semester" placeholder="e.g. Semester 1">
+    </div>
+
+    <div class="form-group">
+      <label>Message</label>
+      <textarea id="message" placeholder="Type your message..."></textarea>
+    </div>
+
+    <button class="whatsapp-btn" onclick="sendToWhatsApp()">
+      WhatsApp
+    </button>
+
+    <!-- 🔥 ANONYMOUS SECTION -->
+    <div style="margin-top:30px; padding-top:20px; border-top:1px solid #eee;">
+
+      <h3 style="color:green;">Submit Anonymously</h3>
+
+      <p>
+        If your concern is sensitive, you can submit it anonymously using the form below.
+      </p>
+
+      <iframe 
+        src="https://forms.gle/dVv9L97HK6VfPAQk8"
+        width="100%" 
+        height="500"
+        style="border:none; border-radius:10px;">
+      </iframe>
+
+    </div>
+
+  </div>
+</div>
+
+<script>
+function sendToWhatsApp(){
+
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const semester = document.getElementById("semester").value.trim();
+  const message = document.getElementById("message").value.trim();
+
+  if(!name || !email || !semester || !message){
+    alert("Please fill in all fields");
+    return;
+  }
+
+  const text =
+`NAME:
+${name}
+
+EMAIL:
+${email}
+
+SEMESTER:
+${semester}
+
+MESSAGE:
+${message}`;
+
+  const url = "https://wa.me/265890277409?text=" + encodeURIComponent(text);
+
+  window.open(url, "_blank");
+}
+</script>
+
+</body>
+</html>
