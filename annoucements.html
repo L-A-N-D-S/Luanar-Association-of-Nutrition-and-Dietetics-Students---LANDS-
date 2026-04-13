@@ -11,7 +11,7 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: white;
+  background: #fff;
 }
 
 /* NAVBAR */
@@ -49,8 +49,30 @@ body {
   font-weight: bold;
 }
 
-.card-body {
-  padding: 15px;
+.card-body { padding: 15px; }
+
+/* TABS */
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  padding: 8px 14px;
+  border: 1px solid green;
+  background: white;
+  color: green;
+  cursor: pointer;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.tab-btn.active {
+  background: green;
+  color: white;
 }
 
 /* GRID */
@@ -60,7 +82,7 @@ body {
   gap: 15px;
 }
 
-/* CARD ITEM */
+/* CARD */
 .announcement-card {
   background: #fafafa;
   border-radius: 10px;
@@ -69,6 +91,17 @@ body {
   border: 1px solid #eee;
 }
 
+/* THUMBNAILS */
+.thumb {
+  width: 100%;
+  height: 180px;
+  border-radius: 8px;
+  object-fit: cover;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+/* TITLE */
 .announcement-title {
   font-weight: bold;
   color: green;
@@ -83,6 +116,27 @@ body {
   padding: 10px 14px;
   border-radius: 6px;
   cursor: pointer;
+  width: 100%;
+}
+
+/* LIGHTBOX */
+.lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.lightbox img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 10px;
 }
 
 /* MOBILE */
@@ -109,8 +163,21 @@ body {
   <div class="card-header">All Announcements</div>
 
   <div class="card-body">
+
+    <!-- TABS -->
+    <div class="tabs">
+      <button class="tab-btn active" onclick="setTab('all')">All</button>
+      <button class="tab-btn" onclick="setTab('pdf')">PDFs</button>
+      <button class="tab-btn" onclick="setTab('photo')">Photos</button>
+    </div>
+
     <div class="announcements-grid" id="announcementsGrid"></div>
   </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightboxImg">
 </div>
 
 <script>
@@ -119,7 +186,30 @@ body {
 const repoOwner = "l-a-n-d-s";
 const repoName = "Luanar-Association-of-Nutrition-and-Dietetics-Students---LANDS-";
 
-/* ===== LOAD ANNOUNCEMENTS ===== */
+let allFiles = [];
+let currentTab = "all";
+
+/* ===== LIGHTBOX ===== */
+function openLightbox(src){
+  document.getElementById("lightboxImg").src = src;
+  document.getElementById("lightbox").style.display = "flex";
+}
+
+function closeLightbox(){
+  document.getElementById("lightbox").style.display = "none";
+}
+
+/* ===== TABS ===== */
+function setTab(tab){
+  currentTab = tab;
+
+  document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+  event.target.classList.add("active");
+
+  render();
+}
+
+/* ===== LOAD FILES ===== */
 async function loadAnnouncements(){
   try{
     const res = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/announcement`);
@@ -127,32 +217,77 @@ async function loadAnnouncements(){
 
     if(!Array.isArray(data)) return;
 
-    const pdfs = data
-      .filter(f => f.name.toLowerCase().endsWith(".pdf"))
-      .sort((a,b)=> a.name.localeCompare(b.name)); // stable order
-
-    const container = document.getElementById("announcementsGrid");
-    container.innerHTML = "";
-
-    pdfs.reverse().forEach(file => {
-
-      const title = file.name
-        .replace(".pdf","")
-        .replace(/[_-]/g, " ");
-
-      container.innerHTML += `
-        <div class="announcement-card">
-          <div class="announcement-title">${title}</div>
-          <button class="view-btn" onclick="window.open('${file.download_url}', '_blank')">
-            View PDF
-          </button>
-        </div>
-      `;
+    allFiles = data.filter(f => {
+      const n = f.name.toLowerCase();
+      return n.endsWith(".pdf") ||
+             n.endsWith(".png") ||
+             n.endsWith(".jpg") ||
+             n.endsWith(".jpeg") ||
+             n.endsWith(".gif") ||
+             n.endsWith(".webp");
     });
 
+    render();
+
   }catch(err){
-    console.error("Error loading announcements:", err);
+    console.error(err);
   }
+}
+
+/* ===== RENDER ===== */
+function render(){
+  const container = document.getElementById("announcementsGrid");
+  container.innerHTML = "";
+
+  let filtered = allFiles;
+
+  if(currentTab === "pdf"){
+    filtered = allFiles.filter(f => f.name.toLowerCase().endsWith(".pdf"));
+  }
+  if(currentTab === "photo"){
+    filtered = allFiles.filter(f => 
+      f.name.toLowerCase().match(/\.(png|jpg|jpeg|gif|webp)$/)
+    );
+  }
+
+  filtered.sort((a,b)=> a.name.localeCompare(b.name)).reverse();
+
+  filtered.forEach(file => {
+
+    const name = file.name.toLowerCase();
+
+    const title = file.name
+      .replace(/\.(pdf|png|jpg|jpeg|gif|webp)$/,"")
+      .replace(/[_-]/g," ");
+
+    const isImage = /\.(png|jpg|jpeg|gif|webp)$/.test(name);
+    const isPDF = name.endsWith(".pdf");
+
+    let thumb = "";
+
+    if(isImage){
+      thumb = `<img class="thumb" src="${file.download_url}" onclick="openLightbox('${file.download_url}')">`;
+    }
+
+    if(isPDF){
+      const pdfPreview = `https://docs.google.com/gview?embedded=true&url=${encodeURIComponent(file.download_url)}`;
+      thumb = `<iframe class="thumb" src="${pdfPreview}"></iframe>`;
+    }
+
+    container.innerHTML += `
+      <div class="announcement-card">
+
+        <div class="announcement-title">${title}</div>
+
+        ${thumb}
+
+        <button class="view-btn" onclick="window.open('${file.download_url}', '_blank')">
+          ${isImage ? "Open Image" : "Open PDF"}
+        </button>
+
+      </div>
+    `;
+  });
 }
 
 /* INIT */
