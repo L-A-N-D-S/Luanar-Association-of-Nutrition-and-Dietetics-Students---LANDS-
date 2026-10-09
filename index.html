@@ -2,17 +2,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Registration Form</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f6f9;
-            margin: 0;
-            padding: 0;
-        }    .container {
-        width: 90%;
+    <title>Student Registration Form</title><style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f6f9;
+        margin: 0;
+        padding: 20px;
+    }
+
+    .container {
+        width: 100%;
         max-width: 450px;
-        margin: 80px auto;
+        margin: 60px auto;
         background: white;
         padding: 25px;
         border-radius: 10px;
@@ -31,19 +36,26 @@
         font-weight: bold;
     }
 
-    input, select {
+    input,
+    select {
         width: 100%;
         padding: 12px;
         margin-bottom: 20px;
         border: 1px solid #ccc;
         border-radius: 5px;
-        box-sizing: border-box;
-        font-size: 15px;
+        font-size: 16px;
+        background-color: white;
+    }
+
+    input:focus,
+    select:focus {
+        outline: 2px solid #198754;
+        border-color: #198754;
     }
 
     button {
         width: 100%;
-        padding: 12px;
+        padding: 13px;
         background-color: #198754;
         color: white;
         border: none;
@@ -52,13 +64,19 @@
         cursor: pointer;
     }
 
+    button:hover {
+        background-color: #146c43;
+    }
+
     button:disabled {
         background-color: #888;
+        cursor: not-allowed;
     }
 
     #status {
         text-align: center;
         overflow-wrap: anywhere;
+        line-height: 1.5;
     }
 
     .success {
@@ -70,10 +88,11 @@
     }
 </style>
 
-</head>
-<body>
-    <div class="container">
-        <h2>Student Registration</h2>    <form id="registrationForm">
+</head><body><div class="container">
+    <h2>Student Registration</h2>
+
+    <form id="registrationForm">
+
         <label for="name">Full Name</label>
         <input
             type="text"
@@ -81,6 +100,7 @@
             name="name"
             placeholder="Enter your full name"
             maxlength="150"
+            autocomplete="name"
             required
         >
 
@@ -95,14 +115,19 @@
             <option value="Semester 6">Semester 6</option>
         </select>
 
-        <button type="submit" id="submitButton">Register</button>
+        <button type="submit" id="submitButton">
+            Register
+        </button>
+
         <p id="status" role="status" aria-live="polite"></p>
+
     </form>
 </div>
 
 <script>
+    // Your Google Apps Script deployment URL
     const SCRIPT_URL =
-        "https://script.google.com/macros/s/AKfycbxUt6TnzVpKuJHn7Emf7pISdA6pNorVtcTAKu6rEtcCW9j5K4K3qXTsq5sFB-ykjxSZQA/exec";
+        "https://script.google.com/macros/s/AKfycbx2ej1WEZff3W0B5WUA1YRQHP8MYdQQQyTIUMktIFJRVeW71_DpRizd9bqH9zl60IcFgQ/exec";
 
     const form = document.getElementById("registrationForm");
     const button = document.getElementById("submitButton");
@@ -115,7 +140,10 @@
         const semester = document.getElementById("semester").value;
 
         if (!name || !semester) {
-            showStatus("Please enter your name and select a semester.", false);
+            showStatus(
+                "Please enter your full name and select your semester.",
+                false
+            );
             return;
         }
 
@@ -137,7 +165,7 @@
             });
 
             showStatus(
-                "Request sent. Please check the spreadsheet to confirm it was saved.",
+                "Your request was sent. Please check the spreadsheet to confirm your registration was saved.",
                 true
             );
 
@@ -145,7 +173,7 @@
 
         } catch (error) {
             showStatus(
-                "Unable to send the request. Please check your internet and try again.",
+                "Unable to send your registration. Please check your internet connection and try again.",
                 false
             );
         } finally {
