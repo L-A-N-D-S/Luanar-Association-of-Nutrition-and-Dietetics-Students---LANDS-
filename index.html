@@ -103,6 +103,15 @@
             autocomplete="name"
             required
         >
+        <input
+            type="text"
+            id="applied as"
+            name="Position"
+            placeholder="Apply as judge or semester competitor"
+            autocomplete="position"
+            required
+            >
+        
 
         <label for="semester">Semester of Study</label>
         <select id="semester" name="semester" required>
@@ -138,6 +147,7 @@
 
         const name = document.getElementById("name").value.trim();
         const semester = document.getElementById("semester").value;
+        const position = document.getElementById("position").value.trim();
 
         if (!name || !semester) {
             showStatus(
@@ -160,7 +170,8 @@
                 },
                 body: JSON.stringify({
                     name: name,
-                    semester: semester
+                    semester: semester,
+                    position: position
                 })
             });
 
